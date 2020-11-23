@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\user;
 use Illuminate\Support\Facades\Storage;
-use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\Datatables\Datatables;
+use Redirect, Response;
+use Alert;
 class user_controller extends Controller
 {
     /**
@@ -29,10 +30,10 @@ class user_controller extends Controller
             //     return date("m/d/Y", strtotime($data->created_at));
             // })
             ->addColumn('action', function ($data) {
-                $button ='<button type ="button" class="btn btn-primary align-right edit" name="edit" id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
+                $button ='<button type ="button" class="btn btn-primary align-right btn-sm" name="edit" id="edit" data-id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
                 $button .='
                 &nbsp;&nbsp;&nbsp;
-                <button type ="button" class="btn btn-danger align-right delete" name="edit" id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
+                <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
                 return $button;
             })
             
@@ -97,7 +98,9 @@ class user_controller extends Controller
      */
     public function edit($id)
     {
-        //
+        $where = array('id' => $id);
+        $user = user::where($where)->first();
+        return Response::json($user);
     }
 
     /**
@@ -109,7 +112,28 @@ class user_controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|string|min:6|confirmed',
+            'profile'  => 'required|image|mimes:jpeg,png,jpg',
+        ]);
+        $update = user::find($id);
+        $update->name = $request->name;
+        $update->email = $request->email;
+        $update->password = bcrypt($request->password);
+        $update->update($request->only('profile'));
+        if ($request->hasFile('profile')) {
+
+
+            $file = $request->file('profile');
+            $nama_file = time() . "_" . $file->getClientOriginalName();
+            $tujuan = Storage::putFileAs('public/profile/', $request->file('profile'), $nama_file);
+            $update->profile = $nama_file;
+
+            $update->save();
+        }
+        return redirect()->back()->withSuccess('User Update Succesfully!');;
     }
 
     /**
@@ -120,6 +144,10 @@ class user_controller extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = user::where('id', $id)->first();
+        Storage::delete('public/profile/' . $user->profile);
+        user::where('id', $id)->delete();
+
+        return redirect()->back()->withSuccess('User Deleted Succesfully!');
     }
 }

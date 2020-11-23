@@ -86,12 +86,14 @@
                                 <div class="form-group form-floating-label  {{ $errors->has('password') ? ' has-error' : '' }}">
                                     <input id="password" type="password" class="form-control input-solid" required="" name="password">
                                     <label for="password" class="placeholder">Password</label>
+                                    <input type="checkbox" id="show-password"> Show Password
                                     @if ($errors->has('password'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                     @endif
                                 </div>
+
                                 <div class="form-group form-floating-label">
                                     <input id="password-confirm" type="password" class="form-control input-solid" required="" name="password_confirmation">
                                     <label for="password-confirm" class="placeholder">Retype-Password</label>
@@ -118,17 +120,6 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                {{-- <tbody>
-                    @foreach ($user as $index=>$us)
-                    <tr>
-                        <th>{{ $index+1 }}</th>
-                <td>{{ $us->name }}</td>
-                <td class=""><img src=" {{ asset('storage/profile/'.$us->profile) }}" width="90px" height="90px" class="avatar avatar-xl avatar-img rounded-circle"></td>
-                <td>{{ $us->email }}</td>
-                <td>{!! \Illuminate\Support\Str::limit($us->password, 20, $end='...') !!}</td>
-                </tr>
-                @endforeach
-                </tbody> --}}
             </table>
         </div>
     </div>
@@ -184,7 +175,7 @@
 
                         <div class="form-group" {{ $errors->has('profile') ? ' has-error' : '' }}>
                             <label for="password1">Password</label>
-                            <input type="password" class="form-control" id="password1" name="password">
+                            <input type="password" class="form-control" id="password1" name="password" value="">
                             @if ($errors->has('password'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('password') }}</strong>
@@ -207,65 +198,131 @@
     </div>
 </div>
 @endsection
+@push('styles')
+<style>
+    .help-block {
+        color: red;
+    }
+</style>
+@endpush
 @push('scripts')
 
 <script type="text/javascript">
-    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#profile-img-tag,#profile-img-tagg').attr('src', e.target.result);
+    // HAPUS
+$(document).on('click', '#hapus', function () {
+            var userID = $(this).data('id'); 
+            csrf_token = $('meta[name="csrf-token"]').attr('content');
+            Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+            $.ajax({
+                url: '/admin/user/'+userID,
+                type: "POST",
+                data: {
+                    '_method': 'DELETE',
+                    '_token': csrf_token
+                },
+                success: function (response) {
+                    $('#users-table').DataTable().ajax.reload();
+                    swal({
+                        type: 'success',
+                        title: 'Success!',
+                        text: 'Data has been deleted!'
+                    });
+                },
+                error: function (xhr) {
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                    });
                 }
-                reader.readAsDataURL(input.files[0]);
-            }
+            });
         }
-        $("#profile-img, #profile-imgg").change(function () {
-            readURL(this);
         });
+    });
 
-        $(document).ready(function () {
-            var table = $("#users-table").DataTable({
-                rowReorder: {
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#profile-img-tag,#profile-img-tagg').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#profile-img, #profile-imgg").change(function () {
+    readURL(this);
+});
+
+$(document).ready(function () {
+    var table = $("#users-table").DataTable({
+        rowReorder: {
             selector: 'td:nth-child(0)'
         },
-                processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url:'{{ url("admin/json") }}'
-                    },
-                    columns: [{
-                            data: 'name',
-                            name: 'name'
-                        },
-                        {data: 'profile', name: 'profile',
-                        "render": function (data, type, full, meta) {
-                          return "<img src=\"../../../../storage/profile/" + data + "\" height=\"50\"/>";
-                  }
-                     },
-                        {
-                            data: 'email',
-                            name: 'email'
-                        },
-                        {data: 'action', 
-                        name: 'action', 
-                        orderable: false,
-                        searchable: false}
-                    ],
-            
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{ url("admin/json") }}'
+        },
+        columns: [{
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'profile',
+                name: 'profile',
+                orderable: false,
+                searchable: false,
+                "render": function (data, type, full, meta) {
+                    return "<img src=\"../../../../storage/profile/" + data + "\" height=\"50\" />";
+                }
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ],
+
         responsive: true
-            });
-        });
- $(document).on('click', '.edit', function () {
-var use_id = $(this).data('id');
-$.get('user/'+use_id+'/edit', function (data) {
-$('#editModal').modal('show');
-$('#user_id').val(data.id);
-$('#name1').val(data.name);
-$('#email1').val(data.email);
-$('#password1').val(data.password);
-$('#profile-img-tagg').attr("src","/storage/profile/"+data.profile);
-$('#form-edit').attr("action","/admin/user/update/"+data.id);
-})
+    });
 });
+$(document).on('click', '#edit', function () {
+    var use_id = $(this).data('id');
+    $.get('user/' + use_id + '/edit', function (data) {
+        $('#editModal').modal('show');
+        $('#user_id').val(data.id);
+        $('#name1').val(data.name);
+        $('#email1').val(data.email);
+        $('#password1').val(data.password);
+        $('#profile-img-tagg').attr("src", "/storage/profile/" + data.profile);
+        $('#form-edit').attr("action", "/admin/user/update/" + data.id);
+    })
+});
+$(document).ready(function () {
+    $('#show-password').click(function () {
+        if ($(this).is(':checked')) {
+            $('#password').attr('type', 'text');
+            $('#password-confirm').attr('type', 'text');
+        } else {
+            $('#password').attr('type', 'password');
+            $('#password-confirm').attr('type', 'password');
+        }
+    });
+});
+
 </script>
 @endpush
