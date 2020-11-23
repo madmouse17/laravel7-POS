@@ -20,6 +20,7 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('admin/beranda', 'beranda_controller');
     Route::resource('admin/user', 'user_controller');
+    Route::get('admin/json','user_controller@json');
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');
     // Route::resource('admin/profile', 'profile_controller');

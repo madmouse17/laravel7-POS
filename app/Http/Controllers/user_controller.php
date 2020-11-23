@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\user;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
-
+use Yajra\Datatables\Datatables;
 class user_controller extends Controller
 {
     /**
@@ -17,7 +17,27 @@ class user_controller extends Controller
      */
     public function index()
     {
+        // $user= user::Orderby('id','desc')->get();
+        
         return view('admin.user.user_index');
+    }
+    public function json()
+    {
+        $data = user::latest()->get();
+        return Datatables::of($data)
+            // ->editColumn("created_at", function ($data) {
+            //     return date("m/d/Y", strtotime($data->created_at));
+            // })
+            ->addColumn('action', function ($data) {
+                $button ='<button type ="button" class="btn btn-primary align-right edit" name="edit" id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
+                $button .='
+                &nbsp;&nbsp;&nbsp;
+                <button type ="button" class="btn btn-danger align-right delete" name="edit" id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
+                return $button;
+            })
+            
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**

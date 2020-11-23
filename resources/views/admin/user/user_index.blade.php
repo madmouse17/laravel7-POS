@@ -35,40 +35,53 @@
                     <div class="card-body">
                         <form role="form" action="{{ url('/admin/user/') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="form-row">
-                                <div class="col-md-12 mb-2 d-flex justify-content-center">
-                                    <div class="avatar avatar-xxl">
-                                        <img src="#" id="profile-img-tag" alt="profile" class="avatar-img rounded-circle">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 mb-4 d-flex justify-content-center">
+                                        <div class="avatar avatar-xxl">
+                                            <img src="#" id="profile-img-tag" alt="profile" class="avatar-img rounded-circle">
+                                            <div class="form-group form-group-default  {{ $errors->has('profile') ? ' has-error' : '' }}">
+                                                <input type="file" id="profile-img" name="profile" class="form-control-file" placeholder="Fill Name">
+                                                @if ($errors->has('profile'))
+                                                <span class="help-block">
+                                                    <strong>{{ $errors->first('profile') }}</strong>
+                                                </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-6 mb-6">
+                                        <div class="form-group input-icon{{ $errors->has('name') ? ' has-error' : '' }} ">
+                                            <span class=" input-icon-addon">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                            <input type="text" class="form-control input-solid" required="" name="name" placeholder="Username">
 
+                                            @if ($errors->has('name'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12 mb-2 d-flex justify-content-center">
-                                    <div class="form-group form-group-default  {{ $errors->has('profile') ? ' has-error' : '' }}">
-                                        <input type="file" id="profile-img" name="profile" class="form-control" placeholder="Fill Name">
-                                        @if ($errors->has('profile'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('profile') }}</strong>
-                                        </span>
-                                        @endif
+
+                                    <div class="col-md-6 mb-6">
+                                        <div class="form-group input-icon  {{ $errors->has('email') ? ' has-error' : '' }}">
+                                            <span class=" input-icon-addon">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                            <input id="email" type="email" class="form-control input-solid" required="" name="email" placeholder="Example@mail.com">
+                                            @if ($errors->has('email'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('email') }}</strong>
+                                            </span>
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group form-floating-label {{ $errors->has('name') ? ' has-error' : '' }}">
-                                    <input id="inputFloatingLabel2" type="text" class="form-control input-solid" required="" name="name">
-                                    <label for="inputFloatingLabel2" class="placeholder">Username</label>
-                                    @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="form-group form-floating-label  {{ $errors->has('email') ? ' has-error' : '' }}">
-                                    <input id="email" type="email" class="form-control input-solid" required="" name="email">
-                                    <label for="email" class="placeholder">Email</label>
-                                    @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                    @endif
                                 </div>
                                 <div class="form-group form-floating-label  {{ $errors->has('password') ? ' has-error' : '' }}">
                                     <input id="password" type="password" class="form-control input-solid" required="" name="password">
@@ -84,28 +97,175 @@
                                     <label for="password-confirm" class="placeholder">Retype-Password</label>
                                 </div>
                             </div>
+                            <div class="card-action">
+                                <button class="btn btn-success align-right">Save</button>
+                            </div>
                     </div>
                 </div>
-                <button class="btn btn-success">Save</button>
-                </form>
+            </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="table-responsive">
+            <table id="users-table" class="display table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Profile</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                {{-- <tbody>
+                    @foreach ($user as $index=>$us)
+                    <tr>
+                        <th>{{ $index+1 }}</th>
+                <td>{{ $us->name }}</td>
+                <td class=""><img src=" {{ asset('storage/profile/'.$us->profile) }}" width="90px" height="90px" class="avatar avatar-xl avatar-img rounded-circle"></td>
+                <td>{{ $us->email }}</td>
+                <td>{!! \Illuminate\Support\Str::limit($us->password, 20, $end='...') !!}</td>
+                </tr>
+                @endforeach
+                </tbody> --}}
+            </table>
+        </div>
+    </div>
+    {{-- EDIT-MODAL --}}
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form role="form" action="" method="POST" enctype="multipart/form-data" id="form-edit">
+                        <input type="hidden" name="user_id" id="user_id">
+                        {{ method_field('PATCH') }}
+                        {{ csrf_field() }}
+                        <div class="form-row">
+                            <div class="col-md-12 mb-2 d-flex justify-content-center">
+                                <img src="" id="profile-img-tagg" width="90px" height="90px" class="img-circle elevation-2" />
+                            </div>
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <div class="form-group {{ $errors->has('profile') ? ' has-error' : '' }}">
+                                    <input type="file" class="form-control-file" id="profile-imgg" name="profile">
+                                    @if ($errors->has('profile'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('profile') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6" {{ $errors->has('name') ? ' has-error' : '' }}>
+                                <label for="name1">Nama</label>
+                                <input type="text" class="form-control" id="name1" name="name" autofocus>
+                                @if ($errors->has('name'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('name') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                            <div class="form-group col-md-6" {{ $errors->has('email') ? ' has-error' : '' }}>
+                                <label for="email1">E mail</label>
+                                <input type="email" class="form-control" id="email1" name="email" value="" readonly>
+                                @if ($errors->has('email'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group" {{ $errors->has('profile') ? ' has-error' : '' }}>
+                            <label for="password1">Password</label>
+                            <input type="password" class="form-control" id="password1" name="password">
+                            @if ($errors->has('password'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="password-confirm1">Re-type Password</label>
+                            <input type="password" name="password_confirmation" class="form-control" id="password-confirm1">
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update Data</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    @endsection
-    @push('scripts')
-    <script type="text/javascript">
-        function readURL(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
+</div>
+@endsection
+@push('scripts')
 
-    reader.onload = function (e) {
-    $('#profile-img-tag,#profile-img-tagg').attr('src', e.target.result);
-    }
-    reader.readAsDataURL(input.files[0]);
-    }
-    }
-    $("#profile-img, #profile-imgg").change(function(){
-    readURL(this);
-    });
-    </script>
-    @endpush
+<script type="text/javascript">
+    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#profile-img-tag,#profile-img-tagg').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#profile-img, #profile-imgg").change(function () {
+            readURL(this);
+        });
+
+        $(document).ready(function () {
+            var table = $("#users-table").DataTable({
+                rowReorder: {
+            selector: 'td:nth-child(0)'
+        },
+                processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url:'{{ url("admin/json") }}'
+                    },
+                    columns: [{
+                            data: 'name',
+                            name: 'name'
+                        },
+                        {data: 'profile', name: 'profile',
+                        "render": function (data, type, full, meta) {
+                          return "<img src=\"../../../../storage/profile/" + data + "\" height=\"50\"/>";
+                  }
+                     },
+                        {
+                            data: 'email',
+                            name: 'email'
+                        },
+                        {data: 'action', 
+                        name: 'action', 
+                        orderable: false,
+                        searchable: false}
+                    ],
+            
+        responsive: true
+            });
+        });
+ $(document).on('click', '.edit', function () {
+var use_id = $(this).data('id');
+$.get('user/'+use_id+'/edit', function (data) {
+$('#editModal').modal('show');
+$('#user_id').val(data.id);
+$('#name1').val(data.name);
+$('#email1').val(data.email);
+$('#password1').val(data.password);
+$('#profile-img-tagg').attr("src","/storage/profile/"+data.profile);
+$('#form-edit').attr("action","/admin/user/update/"+data.id);
+})
+});
+</script>
+@endpush
