@@ -312,6 +312,7 @@ $(document).on('click', '#edit', function () {
         $('#form-edit').attr("action", "/admin/user/update/" + data.id);
     })
 });
+// show password
 $(document).ready(function () {
     $('#show-password').click(function () {
         if ($(this).is(':checked')) {

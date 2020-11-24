@@ -22,7 +22,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('admin/user', 'user_controller');
     Route::get('admin/json','user_controller@json');
     Route::patch('admin/user/update/{id}', 'user_controller@update');
-    Route::get('admin/user/delete/{id}', 'user_controller@destroy');
+    Route::get('admin/profile','Profile_controller@index')->name('view.profile');
+    Route::patch('admin/profile/update', 'Profile_controller@update');
+    Route::post('admin/profile/sore', 'Profile_controller@store')->name('profile.store');
+
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');
     // Route::resource('admin/profile', 'profile_controller');
@@ -30,6 +33,10 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Auth::routes();
+Route::get('/logout', function () {
+    Auth::logout();
+        return redirect('/');
+    });
 
 Route::get('/home', function () {
     return redirect('admin/beranda');

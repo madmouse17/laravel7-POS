@@ -201,7 +201,7 @@
                                     </div>
                                     <div class="u-text">
                                         <h4>{{ Auth::user()->name }}</h4>
-                                        <p class="text-muted">{{ Auth::user()->email }}</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                        <p class="text-muted">{{ Auth::user()->email }}</p><a href="{{ route('view.profile') }}" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                     </div>
                                 </div>
                             </li>
@@ -213,7 +213,7 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Account Setting</a> --}}
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <a class="dropdown-item" href="{{ url('/logout') }}">Logout</a>
                             </li>
                         </div>
                     </ul>
