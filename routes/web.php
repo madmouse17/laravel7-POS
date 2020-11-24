@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::patch('admin/profile/update', 'user_controller@update');
 });
 
-Auth::routes();
+Auth::routes(['register'=> false, 'reset'=>false]); 
 Route::get('/logout', function () {
     Auth::logout();
         return redirect('/');
