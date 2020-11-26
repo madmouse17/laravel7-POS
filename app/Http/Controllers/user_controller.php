@@ -112,27 +112,53 @@ class user_controller extends Controller
      */
     public function update(Request $request, $id)
     {
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'email' => 'required',
+        //     'password' => 'required|string|min:6|confirmed',
+        //     'profile'  => 'required|image|mimes:jpeg,png,jpg',
+        // ]);
+        // $update = user::find($id);
+        // $update->name = $request->name;
+        // $update->email = $request->email;
+        // $update->password = bcrypt($request->password);
+        // $update->update($request->only('profile'));
+        // if ($request->hasFile('profile')) {
+
+
+        //     $file = $request->file('profile');
+        //     $nama_file = time() . "_" . $file->getClientOriginalName();
+        //     $tujuan = Storage::putFileAs('public/profile/', $request->file('profile'), $nama_file);
+        //     $update->profile = $nama_file;
+
+        //     $update->save();
+        $update = user::find($id);
+        $profile_name = $request->profile_name;
+        $profile= $request-> file('profile');
+        if ($profile !='') {
+            Storage::delete('public/profile/'. $update->profile);
         $this->validate($request, [
             'name' => 'required',
+            'profile'  => 'image|mimes:jpeg,png,jpg',
             'email' => 'required',
-            'password' => 'required|string|min:6|confirmed',
-            'profile'  => 'required|image|mimes:jpeg,png,jpg',
+            'password' => 'confirmed',
         ]);
-        $update = user::find($id);
-        $update->name = $request->name;
-        $update->email = $request->email;
-        $update->password = bcrypt($request->password);
-        $update->update($request->only('profile'));
-        if ($request->hasFile('profile')) {
-
-
-            $file = $request->file('profile');
-            $nama_file = time() . "_" . $file->getClientOriginalName();
-            $tujuan = Storage::putFileAs('public/profile/', $request->file('profile'), $nama_file);
-            $update->profile = $nama_file;
-
-            $update->save();
-        }
+        $profile_name = $request->file('profile');
+        $nama_file = time() . "_" . $profile->getClientOriginalName();
+        // isi dengan nama folder tempat kemana file diupload
+        $tujuan_upload = Storage::putFileAs('public/profile/', $request->file('profile'), $nama_file);
+        $update->update([
+            'name' => $request['name'],
+            'profile' => $nama_file,
+            'email' => $request['email'],
+        ]);
+        } else{
+            $update->update([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']),
+            ]);}
+        
         return redirect()->back()->withSuccess('User Update Succesfully!');;
     }
 

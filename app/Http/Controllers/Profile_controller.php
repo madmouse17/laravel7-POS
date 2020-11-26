@@ -28,18 +28,26 @@ class Profile_controller extends Controller
     }
     public function update(Request $request)
     {
+        $profile_name = $request->profile_name;
+        $profile= $request-> file('profile');
+        if ($profile !='') {
+            Storage::delete('public/profile/'. Auth::user()->profile);
         $this->validate($request, [
             'name' => 'required',
-            'profile'  => 'required|image|mimes:jpeg,png,jpg',
+            'profile'  => 'image|mimes:jpeg,png,jpg',
         ]);
-        $file = $request->file('profile');
-        $nama_file = time() . "_" . $file->getClientOriginalName();
+        $profile_name = $request->file('profile');
+        $nama_file = time() . "_" . $profile->getClientOriginalName();
         // isi dengan nama folder tempat kemana file diupload
         $tujuan_upload = Storage::putFileAs('public/profile/', $request->file('profile'), $nama_file);
         Auth::user()->update([
             'name' => $request['name'],
             'profile' => $nama_file,
         ]);
+        } else{
+            Auth::user()->update([
+            'name' => $request['name'],
+            ]);}
         // alert()->success('Success Title', 'Success Message');
         return redirect()->back()->withSuccess('Update Successfully!');
     }

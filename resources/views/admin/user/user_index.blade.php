@@ -141,11 +141,14 @@
                         {{ csrf_field() }}
                         <div class="form-row">
                             <div class="col-md-12 mb-2 d-flex justify-content-center">
-                                <img src="" id="profile-img-tagg" width="90px" height="90px" class="img-circle elevation-2" />
+                                <div class="avatar avatar-xxl">
+                                    <img src="" id="profile-img-tagg" width="90px" height="90px" class="avatar-img rounded-circle" />
+                                </div>
                             </div>
                             <div class="col-md-12 d-flex justify-content-center">
                                 <div class="form-group {{ $errors->has('profile') ? ' has-error' : '' }}">
                                     <input type="file" class="form-control-file" id="profile-imgg" name="profile">
+                                    <input type="hidden" name="profile_name">
                                     @if ($errors->has('profile'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('profile') }}</strong>
@@ -176,6 +179,7 @@
                         <div class="form-group" {{ $errors->has('profile') ? ' has-error' : '' }}>
                             <label for="password1">Password</label>
                             <input type="password" class="form-control" id="password1" name="password" value="">
+                            <input type="checkbox" id="show-password1"> Show Password
                             @if ($errors->has('password'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('password') }}</strong>
@@ -318,9 +322,23 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             $('#password').attr('type', 'text');
             $('#password-confirm').attr('type', 'text');
+
         } else {
             $('#password').attr('type', 'password');
             $('#password-confirm').attr('type', 'password');
+        }
+    });
+});
+// show password modal
+$(document).ready(function () {
+    $('#show-password1').click(function () {
+        if ($(this).is(':checked')) {
+            $('#password1').attr('type', 'text');
+            $('#password-confirm1').attr('type', 'text');
+
+        } else {
+            $('#password1').attr('type', 'password');
+            $('#password-confirm1').attr('type', 'password');
         }
     });
 });
