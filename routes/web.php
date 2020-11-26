@@ -24,7 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('admin/user/update/{id}', 'user_controller@update');
     Route::get('admin/profile','Profile_controller@index')->name('view.profile');
     Route::patch('admin/profile/update', 'Profile_controller@update');
-    Route::post('admin/profile/sore', 'Profile_controller@store')->name('profile.store');
+    Route::post('admin/profile/store', 'Profile_controller@store')->name('profile.store');
+    Route::get('admin/setting', 'Profile_controller@setting')->name('setting');
 
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');

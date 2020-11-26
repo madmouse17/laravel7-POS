@@ -51,4 +51,10 @@ class Profile_controller extends Controller
         // alert()->success('Success Title', 'Success Message');
         return redirect()->back()->withSuccess('Update Successfully!');
     }
+
+    public function setting()
+    {
+
+        return view('admin.user.setting_index');
+    }
 }

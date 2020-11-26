@@ -210,8 +210,8 @@
                                 {{-- <a class="dropdown-item" href="#">My Profile</a>
                                 <a class="dropdown-item" href="#">My Balance</a>
                                 <a class="dropdown-item" href="#">Inbox</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Account Setting</a> --}}
+                                <div class="dropdown-divider"></div>--}}
+                                <a class="dropdown-item" href="{{ route('setting') }}">Setting</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url('/logout') }}">Logout</a>
                             </li>
