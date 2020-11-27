@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Yajra\Datatables\Datatables;
 use Redirect, Response;
 use Alert;
+use App\setting;
 class user_controller extends Controller
 {
     /**
@@ -19,8 +20,9 @@ class user_controller extends Controller
     public function index()
     {
         // $user= user::Orderby('id','desc')->get();
+        $setting=setting::where('id',1)->first();
         
-        return view('admin.user.user_index');
+        return view('admin.user.user_index',compact('setting'));
     }
     public function json()
     {

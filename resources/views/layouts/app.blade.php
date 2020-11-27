@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $setting->perusahaan}}-{{ $setting->tagline }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -16,7 +16,7 @@
     <!-- Fonts -->
 
     <!-- Styles -->
-    <link rel="icon" href="{{ asset('assets/img/icon.ico') }}" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('storage/icon/'.$setting->icon) }}" type="image/x-icon" />
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
         WebFont.load({

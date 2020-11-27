@@ -8,12 +8,14 @@ use App\user;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Alert;
+use App\setting;
 class Profile_controller extends Controller
 {
     public function index()
     {
+        $setting=setting::where('id',1)->first();
 
-        return view('admin.user.profile_index');
+        return view('admin.user.profile_index',compact('setting'));
     }
     public function store(Request $request)
     {
@@ -52,9 +54,4 @@ class Profile_controller extends Controller
         return redirect()->back()->withSuccess('Update Successfully!');
     }
 
-    public function setting()
-    {
-
-        return view('admin.user.setting_index');
-    }
 }

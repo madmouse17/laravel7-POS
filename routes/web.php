@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\setting;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+ $setting=setting::where('id',1)->first();
+    return view('auth.login',compact('setting'));
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -25,7 +27,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/profile','Profile_controller@index')->name('view.profile');
     Route::patch('admin/profile/update', 'Profile_controller@update');
     Route::post('admin/profile/store', 'Profile_controller@store')->name('profile.store');
-    Route::get('admin/setting', 'Profile_controller@setting')->name('setting');
+    Route::resource('admin/setting', 'setting_controller');
+    Route::patch('admin/detail','setting_controller@store')->name('setting.detail');
+    Route::patch('admin/icon','setting_controller@icon')->name('setting.icon');
+    Route::patch('admin/logo','setting_controller@logo')->name('setting.logo');
+
 
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');

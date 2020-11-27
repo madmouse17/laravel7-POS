@@ -8,14 +8,14 @@
             <div class="card">
                 <div class="card-header" style="background-color:#2d80ea;">
                     <center>
-                        <h3 style="color:white;">PT.Laravel Atlantis</h3>
+                        <h3 style="color:white;">{{ $setting->perusahaan }}</h3>
                     </center>
                 </div>
 
                 <div class="card-body">
                     <div class="row justify-content-center">
                         <div class="avatar avatar-xxl ">
-                            <img src="https://via.placeholder.com/50x50" alt=" logo" class="avatar-img rounded-circle">
+                            <img src="{{ asset('storage/logo/'.$setting->logo) }}" alt=" logo" class="avatar-img rounded-circle">
                         </div>
                     </div>
                     <form method="POST" action="{{ route('login') }}">

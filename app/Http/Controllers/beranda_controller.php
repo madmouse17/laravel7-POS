@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\setting;
 
 class beranda_controller extends Controller
 {
@@ -13,7 +14,8 @@ class beranda_controller extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard.dashboard_index');
+        $setting=setting::where('id',1)->first();
+        return view('admin.dashboard.dashboard_index',compact('setting'));
     }
 
     /**
