@@ -307,7 +307,7 @@ $(document).ready(function () {
                 orderable: false,
                 searchable: false,
                 "render": function (data, type, full, meta) {
-                    return "<img src=\"../../../../storage/profile/" + data + "\" height=\"50\" />";
+                    return "<div class=\"avatar avatar-xl\"><img src=\"../../../../storage/profile/" + data + "\" class=\"avatar-img rounded-circle\" /></div>";
                 }
             },
             {
