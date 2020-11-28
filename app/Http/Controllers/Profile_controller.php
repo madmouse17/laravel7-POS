@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Alert;
 use App\setting;
+use Illuminate\Validation\Rule;
 class Profile_controller extends Controller
 {
     public function index()
@@ -47,8 +48,19 @@ class Profile_controller extends Controller
             'profile' => $nama_file,
         ]);
         } else{
+            $this->validate($request, [
+            'name' => 'required',
+            'email' => ['required', 'email' ,
+                        Rule::unique('users', 'email')
+                        ->ignore(Auth::user()->id)],
+            'username' => ['required', 'string', 'max:500','alpha_dash',
+                        Rule::unique('users', 'username')
+                         ->ignore(Auth::user()->id)],
+        ]);
             Auth::user()->update([
             'name' => $request['name'],
+            'email' => $request['email'],
+            'username' => $request['username'],
             ]);}
         // alert()->success('Success Title', 'Success Message');
         return redirect()->back()->withSuccess('Update Successfully!');

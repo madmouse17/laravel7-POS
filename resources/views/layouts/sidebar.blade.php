@@ -3,13 +3,13 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <div class="user">
-                <div class="avatar-sm float-left mr-2">
+                <div class="avatar-sm float-left mr-2 avatar avatar-online">
                     <img src="{{ asset('storage/profile/'.Auth::user()->profile) }}" alt="..." class="avatar-img rounded-circle">
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            {{ Auth::user()->name }}
+                            {{ Auth::user()->username }}
                             <span class="user-level">Administrator</span>
                             <span class="caret"></span>
                         </span>

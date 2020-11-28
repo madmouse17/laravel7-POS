@@ -19,11 +19,12 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="card" style="width: 14rem;">
+            <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="{{ asset('/storage/profile/'.Auth::user()->profile) }}" alt="Card image cap">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Nama : {{ Auth::user()->name }}</li>
+                    <li class="list-group-item">Username : {{ Auth::user()->username }}</li>
                     <li class="list-group-item">Email : {{ Auth::user()->email }}</li>
+                    <li class="list-group-item">FullName : {{ Auth::user()->name }}</li>
                     <li class="list-group-item">Created At : {{  date('d M Y', strtotime(Auth::user()->created_at))}}</li>
                     <li class="list-group-item">Updated At : {{  date('d M Y', strtotime(Auth::user()->updated_at))}}</li>
                 </ul>
@@ -53,11 +54,33 @@
                         </div>
                         <br>
                         <br>
+                        <div class="col-md-12 mb-4 d-flex justify-content-center input-icon" {{ $errors->has('username') ? ' has-error' : '' }}>
+                            <span class=" input-icon-addon">
+                                <i class="fas fa-at"></i>
+                            </span>
+                            <input type="text" class="form-control input-solid" required="" name="username" value="{{ Auth::user()->username }}" autofocus>
+                            @if ($errors->has('username'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('username') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="col-md-12 mb-4 d-flex justify-content-center input-icon" {{ $errors->has('email') ? ' has-error' : '' }}>
+                            <span class=" input-icon-addon">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                            <input type="text" class="form-control input-solid" required="" name="email" value="{{ Auth::user()->email }}" autofocus>
+                            @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                            @endif
+                        </div>
                         <div class="col-md-12 mb-4 d-flex justify-content-center input-icon" {{ $errors->has('name') ? ' has-error' : '' }}>
                             <span class=" input-icon-addon">
                                 <i class="fa fa-user"></i>
                             </span>
-                            <input type="text" class="form-control input-solid" required="" name="name" placeholder="Username" value="{{ Auth::user()->name }}" autofocus>
+                            <input type="text" class="form-control input-solid" required="" name="name" value="{{ Auth::user()->name }}" autofocus>
                             @if ($errors->has('name'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>

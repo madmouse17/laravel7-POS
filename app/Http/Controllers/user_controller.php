@@ -10,6 +10,7 @@ use Yajra\Datatables\Datatables;
 use Redirect, Response;
 use Alert;
 use App\setting;
+use Illuminate\Validation\Rule;
 class user_controller extends Controller
 {
     /**
@@ -64,6 +65,7 @@ class user_controller extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|unique:users',
+            'username' => 'required|unique:users|alpha_dash',
             'password' => 'required|string|min:6|confirmed',
             'profile'  => 'required|image|mimes:jpeg,png,jpg',
         ]);
@@ -74,6 +76,7 @@ class user_controller extends Controller
         user::create([
             'name' => $request['name'],
             'email' => $request['email'],
+            'username' => $request['username'],
             'password' => bcrypt($request['password']),
             'profile' => $nama_file,
         ]);
@@ -142,8 +145,6 @@ class user_controller extends Controller
         $this->validate($request, [
             'name' => 'required',
             'profile'  => 'image|mimes:jpeg,png,jpg',
-            'email' => 'required',
-            'password' => 'confirmed',
         ]);
         $profile_name = $request->file('profile');
         $nama_file = time() . "_" . $profile->getClientOriginalName();
@@ -152,13 +153,26 @@ class user_controller extends Controller
         $update->update([
             'name' => $request['name'],
             'profile' => $nama_file,
-            'email' => $request['email'],
+            
         ]);
         } else{
+            
+            $this->validate($request, [
+            'name' => 'required',
+            'email' => ['required', 'email' ,
+                        Rule::unique('users', 'email')
+                        ->ignore($update->id)],
+            'username' => ['required', 'string', 'max:500','alpha_dash',
+                        Rule::unique('users', 'username')
+                         ->ignore($update->id)],
+            'password' => 'confirmed',
+        ]);
             $update->update([
             'name' => $request['name'],
             'email' => $request['email'],
+            'username' => $request['username'],
             'password' => bcrypt($request['password']),
+           
             ]);}
         
         return redirect()->back()->withSuccess('User Update Succesfully!');;

@@ -2,7 +2,7 @@
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="blue">
 
-        <a href="index.html" class="logo justify-conten-center">
+        <a href="{{ url('admin/beranda') }}" class="logo justify-conten-center">
             <p class="text-white" style="font-size:30px;"><strong>{{ $setting->perusahaan }}</strong></p>
             {{-- <div class="avatar avatar-m ">
                 <img src="{{ asset('storage/logo/'.$setting->logo) }}" alt="navbar brand" class="navbar-brand avatar-img rounded-circle"></div> --}}
@@ -202,7 +202,7 @@
                                     <img src="{{ asset('storage/profile/'.Auth::user()->profile) }}" alt="image profile" class="avatar-img rounded">
                                 </div>
                                 <div class="u-text">
-                                    <h4>{{ Auth::user()->name }}</h4>
+                                    <h4>{{ Auth::user()->username }}</h4>
                                     <p class="text-muted">{{ Auth::user()->email }}</p><a href="{{ route('view.profile') }}" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                 </div>
                             </div>

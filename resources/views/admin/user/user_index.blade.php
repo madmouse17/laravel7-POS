@@ -55,15 +55,15 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-6 mb-6">
-                                        <div class="form-group input-icon{{ $errors->has('name') ? ' has-error' : '' }} ">
+                                        <div class="form-group input-icon{{ $errors->has('username') ? ' has-error' : '' }} ">
                                             <span class=" input-icon-addon">
-                                                <i class="fa fa-user"></i>
+                                                <i class="fas fa-at"></i>
                                             </span>
-                                            <input type="text" class="form-control input-solid" required="" name="name" placeholder="Username">
+                                            <input type="text" class="form-control input-solid" required="" name="username" placeholder="Username">
 
-                                            @if ($errors->has('name'))
+                                            @if ($errors->has('username'))
                                             <span class="help-block">
-                                                <strong>{{ $errors->first('name') }}</strong>
+                                                <strong>{{ $errors->first('username') }}</strong>
                                             </span>
                                             @endif
                                         </div>
@@ -82,6 +82,17 @@
                                             @endif
                                         </div>
                                     </div>
+                                </div>
+                                <div class="form-group input-icon  {{ $errors->has('name') ? ' has-error' : '' }}">
+                                    <span class=" input-icon-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <input id="name" type="name" class="form-control input-solid" required="" name="name" placeholder="Full Name">
+                                    @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                                 <div class="form-group form-floating-label  {{ $errors->has('password') ? ' has-error' : '' }}">
                                     <input id="password" type="password" class="form-control input-solid" required="" name="password">
@@ -114,9 +125,10 @@
             <table id="users-table" class="display table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Nama</th>
+                        <th>FullName</th>
                         <th>Profile</th>
                         <th>Email</th>
+                        <th>Username</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -156,18 +168,18 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="form-group col-md-6" {{ $errors->has('name') ? ' has-error' : '' }}>
-                                <label for="name1">Nama</label>
-                                <input type="text" class="form-control" id="name1" name="name" autofocus>
-                                @if ($errors->has('name'))
+                            <div class="form-group col-md-6" {{ $errors->has('username') ? ' has-error' : '' }}>
+                                <label for="username1">Username</label>
+                                <input type="text" class="form-control" id="username1" name="username" autofocus>
+                                @if ($errors->has('username'))
                                 <span class="help-block">
-                                    <strong>{{ $errors->first('name') }}</strong>
+                                    <strong>{{ $errors->first('username') }}</strong>
                                 </span>
                                 @endif
                             </div>
                             <div class="form-group col-md-6" {{ $errors->has('email') ? ' has-error' : '' }}>
                                 <label for="email1">E mail</label>
-                                <input type="email" class="form-control" id="email1" name="email" value="" readonly>
+                                <input type="email" class="form-control" id="email1" name="email" value="">
                                 @if ($errors->has('email'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -175,8 +187,17 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group" {{ $errors->has('name') ? ' has-error' : '' }}>
+                            <label for="name1">Full Name</label>
+                            <input type="text" class="form-control" id="name1" name="name">
+                            @if ($errors->has('name'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                            @endif
+                        </div>
 
-                        <div class="form-group" {{ $errors->has('profile') ? ' has-error' : '' }}>
+                        <div class="form-group" {{ $errors->has('password') ? ' has-error' : '' }}>
                             <label for="password1">Password</label>
                             <input type="password" class="form-control" id="password1" name="password" value="">
                             <input type="checkbox" id="show-password1"> Show Password
@@ -294,6 +315,10 @@ $(document).ready(function () {
                 name: 'email'
             },
             {
+                data: 'username',
+                name: 'username'
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false,
@@ -311,6 +336,7 @@ $(document).on('click', '#edit', function () {
         $('#user_id').val(data.id);
         $('#name1').val(data.name);
         $('#email1').val(data.email);
+        $('#username1').val(data.username);
         $('#password1').val(data.password);
         $('#profile-img-tagg').attr("src", "/storage/profile/" + data.profile);
         $('#form-edit').attr("action", "/admin/user/update/" + data.id);
