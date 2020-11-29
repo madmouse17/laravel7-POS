@@ -21,17 +21,27 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('admin/beranda', 'beranda_controller');
+
+    // Manage User
     Route::resource('admin/user', 'user_controller');
     Route::get('admin/json','user_controller@json');
     Route::patch('admin/user/update/{id}', 'user_controller@update');
+
+    // View Profile
     Route::get('admin/profile','Profile_controller@index')->name('view.profile');
     Route::patch('admin/profile/update', 'Profile_controller@update');
     Route::post('admin/profile/store', 'Profile_controller@store')->name('profile.store');
+
+    // Setting
     Route::resource('admin/setting', 'setting_controller');
     Route::patch('admin/detail','setting_controller@store')->name('setting.detail');
     Route::patch('admin/icon','setting_controller@icon')->name('setting.icon');
     Route::patch('admin/logo','setting_controller@logo')->name('setting.logo');
 
+    // Manage Categories
+    Route::resource('admin/categories', 'categories_controller');
+    Route::get('admin/category_json','categories_controller@category_json');
+    Route::patch('admin/categories/update/{id}', 'categories_controller@update');
 
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');

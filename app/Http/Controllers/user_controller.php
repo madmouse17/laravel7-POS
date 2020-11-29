@@ -175,7 +175,7 @@ class user_controller extends Controller
            
             ]);}
         
-        return redirect()->back()->withSuccess('User Update Succesfully!');;
+        return redirect()->back()->withSuccess('User Update Succesfully!');
     }
 
     /**
