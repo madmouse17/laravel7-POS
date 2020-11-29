@@ -223,13 +223,7 @@
     </div>
 </div>
 @endsection
-@push('styles')
-<style>
-    .help-block {
-        color: red;
-    }
-</style>
-@endpush
+
 @push('scripts')
 
 <script type="text/javascript">

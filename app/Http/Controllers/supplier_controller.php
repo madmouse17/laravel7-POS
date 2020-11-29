@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\setting;
-use App\category;
-use Yajra\Datatables\Datatables;
-use Redirect, Response;
-use Alert;
-use Illuminate\Support\Facades\Validator;
+use App\supplier;
 use Session;
-
-class categories_controller extends Controller
+use Alert;
+use Redirect,Response;
+use Yajra\Datatables\Datatables;
+use Illuminate\Support\Facades\Validator;
+class supplier_controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,11 +20,21 @@ class categories_controller extends Controller
     public function index()
     {
         $setting=setting::where('id',1)->first();
-        return view ('admin.category.category_index',compact('setting'));
+        return view ('admin.supplier.supplier_index',compact('setting'));
     }
-    public function category_json()
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $data = category::latest()->get();
+        //
+    }
+    public function supplier_json()
+    {
+        $data = supplier::latest()->get();
         return Datatables::of($data)
             // ->editColumn("created_at", function ($data) {
             //     return date("m/d/Y", strtotime($data->created_at));
@@ -43,16 +52,6 @@ class categories_controller extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-       
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -62,12 +61,16 @@ class categories_controller extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'alamat'=>'required',
+            'telp'=>'required'
         ]);
-        category::create([
+        supplier::create([
             'name' => $request['name'],
+            'alamat' => $request['alamat'],
+            'telp' => $request['telp'],
         ]);
         // alert()->success('Success Title', 'Success Message');
-        return redirect()->back()->withSuccess('Category Created Successfully!');
+        return redirect()->back()->withSuccess('Supplier Created Successfully!');
     }
 
     /**
@@ -90,8 +93,8 @@ class categories_controller extends Controller
     public function edit($id)
     {
         $where = array('id' => $id);
-        $category = category::where($where)->first();
-        return Response::json($category);
+        $supplier = supplier::where($where)->first();
+        return Response::json($supplier);
     }
 
     /**
@@ -103,14 +106,18 @@ class categories_controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update=category::find($id);
+        $update=supplier::find($id);
         $this->validate($request, [
             'name' => 'required',
+            'alamat'=>'required',
+            'telp'=>'required',
         ]);
         $update->update([
             'name' => $request['name'], 
+            'alamat' => $request['alamat'], 
+            'telp' => $request['telp'], 
         ]);
-        return redirect()->back()->withSuccess('Category Update Succesfully!');
+        return redirect()->back()->withSuccess('Supplier Update Succesfully!');
     }
 
     /**
@@ -121,7 +128,7 @@ class categories_controller extends Controller
      */
     public function destroy($id)
     {
-        $category = category::find($id)->delete();
-        return redirect()->back()->withSuccess('Category Deleted Succesfully!');
+        $supplier = supplier::find($id)->delete();
+        return redirect()->back()->withSuccess('Supplier Deleted Succesfully!');
     }
 }

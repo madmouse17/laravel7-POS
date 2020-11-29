@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\setting;
 use Illuminate\Support\Facades\Storage;
 use Alert;
-
+use Session;
 class setting_controller extends Controller
 {
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\setting;
-
+use Session;
 class beranda_controller extends Controller
 {
     /**

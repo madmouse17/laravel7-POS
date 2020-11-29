@@ -27,7 +27,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">
-
+    <style>
+        .help-block {
+            color: red;
+        }
+    </style>
     @stack('styles')
 </head>
 

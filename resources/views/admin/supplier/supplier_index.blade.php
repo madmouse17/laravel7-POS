@@ -19,7 +19,7 @@
                 <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-                <a href="#">Manage Categories</a>
+                <a href="#">Manage Supplier</a>
             </li>
         </ul>
     </div>
@@ -29,18 +29,36 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">
-                    Add Categories
+                    Add Supplier
                 </h4>
                 <br>
                 <div class="card-body">
-                    <form role="form" action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+                    <form role="form" action="{{ route('supplier.store') }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group form-floating-label  {{ $errors->has('name') ? ' has-error' : '' }}">
-                            <input id="name" type="name" class="form-control input-solid" required="" name="name">
-                            <label for="name" class="placeholder">Category Name</label>
+                            <input id="name" type="text" class="form-control input-solid" required="" name="name">
+                            <label for="name" class="placeholder">Supplier Name</label>
                             @if ($errors->has('name'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="form-group form-floating-label  {{ $errors->has('alamat') ? ' has-error' : '' }}">
+                            <input id="alamat" type="alamat" class="form-control input-solid" required="" name="alamat">
+                            <label for="alamat" class="placeholder">Address</label>
+                            @if ($errors->has('alamat'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('alamat') }}</strong>
+                            </span>
+                            @endif
+                        </div>
+                        <div class="form-group form-floating-label  {{ $errors->has('telp') ? ' has-error' : '' }}">
+                            <input id="telp" type="text" class="form-control input-solid" required="" name="telp">
+                            <label for="telp" class="placeholder">Telp</label>
+                            @if ($errors->has('telp'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('telp') }}</strong>
                             </span>
                             @endif
                         </div>
@@ -55,10 +73,12 @@
     <div class="col-md-8">
         <div class="card">
             <div class="table-responsive">
-                <table id="category-table" class="display table table-striped table-hover">
+                <table id="supplier-table" class="display table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Category Name</th>
+                            <th>Supplier</th>
+                            <th>Address</th>
+                            <th>Telp</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -80,15 +100,35 @@
             </div>
             <div class="modal-body">
                 <form role="form" action="" method="POST" enctype="multipart/form-data" id="form-edit">
-                    <input type="hidden" name="category_id" id="category_id">
+                    <input type="hidden" name="supplier_id" id="supplier_id">
                     {{ method_field('PATCH') }}
                     {{ csrf_field() }}
                     <div class="form-group form-floating-label  {{ $errors->has('name') ? ' has-error' : '' }}">
-                        <input id="name1" type="name" class="form-control input-solid" required="" name="name">
-                        <label for="name" class="placeholder">Category Name</label>
+                        <input id="name1" type="text" class="form-control input-solid" required="" name="name">
+                        <label for="name" class="placeholder">Supplier Name</label>
                         @if ($errors->has('name'))
                         <span class="help-block">
                             <strong>{{ $errors->first('name') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                    <div class="form-group form-floating-label  {{ $errors->has('alamat') ? ' has-error' : '' }}">
+                        <input id="alamat1" type="text" class="form-control input-solid" required="" name="alamat">
+                        <label for="alamat1" class="placeholder">
+                            Address
+                        </label>
+                        @if ($errors->has('alamat'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('alamat') }}</strong>
+                        </span>
+                        @endif
+                    </div>
+                    <div class="form-group form-floating-label  {{ $errors->has('telp') ? ' has-error' : '' }}">
+                        <input id="telp1" type="number" class="form-control input-solid" required="" name="telp">
+                        <label for="telp" class="placeholder">Telp</label>
+                        @if ($errors->has('telp'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('telp') }}</strong>
                         </span>
                         @endif
                     </div>
@@ -105,7 +145,7 @@
 <script type="text/javascript">
     // HAPUS
 $(document).on('click', '#hapus', function () {
-            var categoryID = $(this).data('id'); 
+            var supplierID = $(this).data('id'); 
             csrf_token = $('meta[name="csrf-token"]').attr('content');
             Swal.fire({
                     title: 'Are you sure?',
@@ -118,14 +158,14 @@ $(document).on('click', '#hapus', function () {
                 }).then((result) => {
                     if (result.value) {
             $.ajax({
-                url: '/admin/categories/'+categoryID,
+                url: '/admin/supplier/'+supplierID,
                 type: "POST",
                 data: {
                     '_method': 'DELETE',
                     '_token': csrf_token
                 },
                 success: function (response) {
-                    $('#category-table').DataTable().ajax.reload();
+                    $('#supplier-table').DataTable().ajax.reload();
                     swal({
                         type: 'success',
                         title: 'Success!',
@@ -145,18 +185,30 @@ $(document).on('click', '#hapus', function () {
     });
 // datatable
     $(document).ready(function () {
-    var table = $("#category-table").DataTable({
+    var table = $("#supplier-table").DataTable({
         rowReorder: {
             selector: 'td:nth-child(0)'
         },
         processing: true,
         serverSide: true,
         ajax: {
-            url: '{{ url("admin/category_json") }}'
+            url: '{{ url("admin/supplier_json") }}'
         },
         columns: [{
                 data: 'name',
                 name: 'name'
+            },
+            {
+                data: 'alamat',
+                name: 'alamat',
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: 'telp',
+                name: 'telp',
+                orderable: false,
+                searchable: false
             },
             {
                 data: 'action',
@@ -172,11 +224,13 @@ $(document).on('click', '#hapus', function () {
 // edit modal
 $(document).on('click', '#edit', function () {
     var cat_id = $(this).data('id');
-    $.get('categories/' + cat_id + '/edit', function (data) {
+    $.get('supplier/' + cat_id + '/edit', function (data) {
         $('#editModal').modal('show');
         $('#category_id').val(data.id);
         $('#name1').val(data.name);
-        $('#form-edit').attr("action", "/admin/categories/update/" + data.id);
+        $('#alamat1').val(data.alamat);
+        $('#telp1').val(data.telp);
+        $('#form-edit').attr("action", "/admin/supplier/update/" + data.id);
     })
 });
 </script>

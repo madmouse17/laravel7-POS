@@ -43,6 +43,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/category_json','categories_controller@category_json');
     Route::patch('admin/categories/update/{id}', 'categories_controller@update');
 
+    //Manage Supplier
+    Route::resource('admin/supplier', 'supplier_controller');
+    Route::get('admin/supplier_json','supplier_controller@supplier_json');
+    Route::patch('admin/supplier/update/{id}', 'supplier_controller@update');
+
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');
     // Route::resource('admin/profile', 'profile_controller');

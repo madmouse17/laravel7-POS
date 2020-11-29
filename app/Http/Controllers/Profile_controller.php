@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Alert;
 use App\setting;
 use Illuminate\Validation\Rule;
+use Session;
 class Profile_controller extends Controller
 {
     public function index()

@@ -11,6 +11,7 @@ use Redirect, Response;
 use Alert;
 use App\setting;
 use Illuminate\Validation\Rule;
+use Session;
 class user_controller extends Controller
 {
     /**

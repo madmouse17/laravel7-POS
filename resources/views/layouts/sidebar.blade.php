@@ -59,13 +59,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('categories.index') }}">
-                            <span class="sub-item">Manage Categories</span>
+                        <a href="{{ route('supplier.index') }}">
+                            <span class="sub-item">Manage Supplier</span>
                         </a>
                     </li>
                     <li>
-                        <a href="components/gridsystem.html">
-                            <span class="sub-item">Grid System</span>
+                        <a href="{{ route('categories.index') }}">
+                            <span class="sub-item">Manage Categories</span>
                         </a>
                     </li>
                     <li>
