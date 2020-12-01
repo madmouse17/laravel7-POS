@@ -26,7 +26,8 @@ class product_controller extends Controller
         $setting = setting::where('id',1)->first();
         $category=category::get();
         $supplier=supplier::get();
-        $product=product::get();
+        $product=product::all();
+        //  dd($product);
     return view('admin.product.product_index',compact('setting','category','supplier','product'));
     }
 
@@ -149,7 +150,7 @@ class product_controller extends Controller
             'stock' => $request['stock'],
             'supplier_id' => $request['supplier_id'],
         ]);
-        return redirect()->back()->withSuccess('Category Update Succesfully!');
+        return redirect()->back()->withSuccess('Product Update Succesfully!');
     }
 
     /**

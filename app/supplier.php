@@ -10,6 +10,6 @@ class supplier extends Model
     protected $fillable=['name','alamat','telp'];
 
 public function product(){
-   return $this-> hasMany(product::class);
+   return $this-> belongsTo(product::class);
 }
 }

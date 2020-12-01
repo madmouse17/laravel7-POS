@@ -173,13 +173,20 @@
                         </span>
                         @endif
                     </div>
-                    <select class="form-control" name="category_id">
-                        {{-- @foreach($category as $ct)
-                        <option value="{{$ct->id}}" {{ $ct->id == $product->category_id ? 'selected' : '' }} id="category_id1"> </option>@endforeach --}}
-                        <option value=""></option>
+                    <div class="form-group form-floating-label {{ $errors->has('category_id') ? ' has-error' : '' }}">
+                        <select class=" form-control input-solid id=" selectFloatingLabel2" required="" name="category_id" id="category_id1">
+                            @foreach($category as $ct)
+                            <option value="{{$ct->id}}">{{$ct->name}} </option>@endforeach
+                        </select>
+                        <label for="selectFloatingLabel2" class="placeholder">Categories</label>
+                        @if ($errors->has('category_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('category_id') }}</strong>
+                        </span>
+                        @endif
+                    </div>
 
-                    </select>
-                    <div class="form-group form-floating-label  {{ $errors->has('buy') ? ' has-error' : '' }}">
+                    <div class=" form-group form-floating-label {{ $errors->has('buy') ? ' has-error' : '' }}">
                         <input id="buy1" type="number" class="form-control input-solid" required="" name="buy">
                         <label for="buy" class="placeholder">buy</label>
                         @if ($errors->has('buy'))
@@ -206,11 +213,18 @@
                         </span>
                         @endif
                     </div>
-                    {{-- <select class="form-control" name="supplier_id" id="supplier_id1">
-                        @foreach($supplier as $ct)
-                        <option value="{{$ct->id}}" {{ $ct->id == $product->category_id ? 'selected' : '' }}> {{$ct->name}}</option>
-                    @endforeach
-                    </select> --}}
+                    <div class="form-group form-floating-label {{ $errors->has('supplier_id') ? ' has-error' : '' }}">
+                        <select class=" form-control input-solid id=" selectFloatingLabel2" required="" name="supplier_id" id="supplier_id1">
+                            @foreach($supplier as $sp)
+                            <option value="{{$sp->id}}">{{$sp->name}} </option>@endforeach
+                        </select>
+                        <label for="selectFloatingLabel2" class="placeholder">Supplier</label>
+                        @if ($errors->has('supplier_id'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('supplier_id') }}</strong>
+                        </span>
+                        @endif
+                    </div>
                     <div class="card-action">
                         <button class="btn btn-success center">Save</button>
                     </div>
@@ -338,6 +352,7 @@ $(document).on('click', '#edit', function () {
         $('#supplier_id1').val(data.supplier_id);
         $('#form-edit').attr("action", "/admin/product/update/" + data.id);
     })
+
 });
 </script>
 @endpush
