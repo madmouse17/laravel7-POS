@@ -69,8 +69,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="components/panels.html">
-                            <span class="sub-item">Panels</span>
+                        <a href="{{ route('product.index') }}">
+                            <span class="sub-item">Manage Product</span>
                         </a>
                     </li>
                     <li>

@@ -34,7 +34,7 @@ class supplier_controller extends Controller
     }
     public function supplier_json()
     {
-        $data = supplier::latest()->get();
+        $data = supplier::query();
         return Datatables::of($data)
             // ->editColumn("created_at", function ($data) {
             //     return date("m/d/Y", strtotime($data->created_at));

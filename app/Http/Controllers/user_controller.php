@@ -28,7 +28,7 @@ class user_controller extends Controller
     }
     public function json()
     {
-        $data = user::latest()->get();
+        $data = user::query();
         return Datatables::of($data)
             // ->editColumn("created_at", function ($data) {
             //     return date("m/d/Y", strtotime($data->created_at));

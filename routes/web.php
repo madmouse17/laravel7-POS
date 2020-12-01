@@ -48,6 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/supplier_json','supplier_controller@supplier_json');
     Route::patch('admin/supplier/update/{id}', 'supplier_controller@update');
 
+    
+    //Manage Product
+    Route::resource('admin/product', 'product_controller');
+    Route::get('admin/product_json','product_controller@product_json');
+    Route::patch('admin/product/update/{id}', 'product_controller@update');
+
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');
     // Route::resource('admin/profile', 'profile_controller');

@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\setting;
 use App\category;
+use App\product;
+use App\supplier;
+use Illuminate\Support\Facades\Validator;
+use Alert;
+use Session;
 use Yajra\Datatables\Datatables;
 use Redirect, Response;
-use Alert;
-use Illuminate\Support\Facades\Validator;
-use Session;
 
-class categories_controller extends Controller
+
+class product_controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,22 +23,34 @@ class categories_controller extends Controller
      */
     public function index()
     {
-        $setting=setting::where('id',1)->first();
-        return view ('admin.category.category_index',compact('setting'));
+        $setting = setting::where('id',1)->first();
+        $category=category::get();
+        $supplier=supplier::get();
+        $product=product::get();
+    return view('admin.product.product_index',compact('setting','category','supplier','product'));
     }
-    public function category_json()
+
+    public function product_json()
     {
-        $data = category::query();
+        $data = product::with('category')
+                       ->with('supplier')->select('products.*') ;
         return Datatables::of($data)
             // ->editColumn("created_at", function ($data) {
             //     return date("m/d/Y", strtotime($data->created_at));
             // })
+            ->editColumn('created_at', function ($data) {
+                return $data->updated_at->format('d M Y');
+            })
+            ->editColumn('updated_at', function ($data) {
+                return $data->updated_at->format('d M Y');
+            })
             ->addColumn('action', function ($data) {
                 $button ='<button type ="button" class="btn btn-primary align-right btn-sm" name="edit" id="edit" data-id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
                 $button .='
                 &nbsp;&nbsp;&nbsp;
                 <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
                 return $button;
+                
             })
             
             ->rawColumns(['action'])
@@ -49,7 +64,7 @@ class categories_controller extends Controller
      */
     public function create()
     {
-       
+        //
     }
 
     /**
@@ -61,13 +76,25 @@ class categories_controller extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'barcode' => 'required',
             'name' => 'required',
+            'category_id' => 'required',
+            'buy' => 'required',
+            'sell' => 'required',
+            'stock' => 'required',
+            'supplier_id' => 'required',
         ]);
-        category::create([
+        product::create([
+            'barcode' => $request['barcode'],
             'name' => $request['name'],
+            'category_id' => $request['category_id'],
+            'buy' => $request['buy'],
+            'sell' => $request['sell'],
+            'stock' => $request['stock'],
+            'supplier_id' => $request['supplier_id'],
         ]);
         // alert()->success('Success Title', 'Success Message');
-        return redirect()->back()->withSuccess('Category Created Successfully!');
+        return redirect()->back()->withSuccess('Product Created Successfully!');
     }
 
     /**
@@ -90,8 +117,8 @@ class categories_controller extends Controller
     public function edit($id)
     {
         $where = array('id' => $id);
-        $category = category::where($where)->first();
-        return Response::json($category);
+        $product = product::where($where)->first();
+        return Response::json($product);
     }
 
     /**
@@ -103,12 +130,24 @@ class categories_controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update=category::find($id);
+        $update=product::find($id);
         $this->validate($request, [
+            'barcode' => 'required',
             'name' => 'required',
+            'category_id' => 'required',
+            'buy' => 'required',
+            'sell' => 'required',
+            'stock' => 'required',
+            'supplier_id' => 'required',
         ]);
         $update->update([
-            'name' => $request['name'], 
+            'barcode' => $request['barcode'],
+            'name' => $request['name'],
+            'category_id' => $request['category_id'],
+            'buy' => $request['buy'],
+            'sell' => $request['sell'],
+            'stock' => $request['stock'],
+            'supplier_id' => $request['supplier_id'],
         ]);
         return redirect()->back()->withSuccess('Category Update Succesfully!');
     }
@@ -121,7 +160,7 @@ class categories_controller extends Controller
      */
     public function destroy($id)
     {
-        $category = category::find($id)->delete();
-        return redirect()->back()->withSuccess('Category Deleted Succesfully!');
+        $product = product::find($id)->delete();
+        return redirect()->back()->withSuccess('Product Deleted Succesfully!');
     }
 }
