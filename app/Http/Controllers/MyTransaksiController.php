@@ -14,7 +14,7 @@ use Redirect;
 use Response;
 use Darryldecode\Cart\CartCondition;
 
-class TransaksiController extends Controller
+class MyTransaksiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,51 +23,10 @@ class TransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        $setting=setting::where('id', 1)->first();
-        $data ='Transaksi';
+        $setting = setting::where('id', 1)->first();
+        $data = 'Transaksi';
 
-
-        $condition = new \Darryldecode\Cart\CartCondition(array(
-                'name' => 'discount',
-                'type' => 'tax', //tipenya apa
-                'target' => 'total', //target kondisi ini apply ke mana (total, subtotal)
-                'value' => '0%', //contoh -12% or -10 or +10 etc
-
-            ));
-        \Cart::session(Auth()->id())->condition($condition);
-        $items = \Cart::session(Auth()->id())->getContent();
-
-        if (\Cart::isEmpty()) {
-            $cart_data = [];
-        } else {
-            foreach ($items as $row) {
-                $cart[] = [
-                    'rowId' => $row->id,
-                    'name' => $row->name,
-                    'qty' => $row->quantity,
-                    'pricesingle' => $row->price,
-                    'price' => $row->getPriceSum(),
-                ];
-            }
-
-            $cart_data = collect($cart);
-        }
-
-
-
-        $sub_total = \Cart::session(Auth()->id())->getSubTotal();
-        $total = \Cart::session(Auth()->id())->getTotal();
-
-        $new_condition = \Cart::session(Auth()->id())->getCondition('discount');
-        $discount = $new_condition->getCalculatedValue($sub_total);
-
-        $data_total = [
-            'sub_total' => $sub_total,
-            'total' => $total,
-            'discount' => $discount,
-        ];
-
-        return view('admin.transaksi.transaksi_index', compact('setting', 'data', 'cart_data', 'data_total'));
+        return view('admin.my-transaksi.form', compact('data', 'setting'));
     }
 
     public function product_json()

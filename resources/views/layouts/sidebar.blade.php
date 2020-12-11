@@ -45,7 +45,7 @@
             </span>
             <h4 class="text-section">Main Menu</h4>
         </li>
-        <li class="nav-item {{ (Request::path() == 'admin/user') ? 'active' : '' }} {{ (Request::path() == 'admin/supplier') ? 'active' : '' }} 
+        <li class="nav-item {{ (Request::path() == 'admin/user') ? 'active' : '' }} {{ (Request::path() == 'admin/supplier') ? 'active' : '' }}
         {{ (Request::path() == 'admin/categories') ? 'active' : '' }}
         {{ (Request::path() == 'admin/product') ? 'active' : '' }}">
             <a data-toggle="collapse" href="#base">
@@ -78,7 +78,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item {{ (Request::path() == 'admin/transaksi') ? 'active' : '' }}">
+        <li class="nav-item {{ (Request::path() == 'admin/transaksi' || Request::path() == 'admin/my-transaksi') ? 'active submenu' : '' }}">
             <a data-toggle="collapse" href="#sidebarLayouts">
                 <i class="fas fa-th-list"></i>
                 <p>Manage Transaksi</p>
@@ -89,6 +89,11 @@
                     <li class="{{ (Request::path() == 'admin/transaksi') ? 'active' : '' }}">
                         <a href="{{ route('transaksi.index') }}">
                             <span class="sub-item">Transaksi</span>
+                        </a>
+                    </li>
+                    <li class="{{ (Request::path() == 'admin/my-transaksi') ? 'active' : '' }}">
+                        <a href="{{ route('my-transaksi') }}">
+                            <span class="sub-item">My Transaksi</span>
                         </a>
                     </li>
                     <li>
