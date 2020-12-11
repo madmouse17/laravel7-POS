@@ -42,7 +42,7 @@
                                     <img src="{{ asset('/storage/profile/'.Auth::user()->profile) }}" id="profile-img-tag" alt="profile" class="avatar-img rounded-circle">
                                     <div class="form-group form-group-default  {{ $errors->has('profile') ? ' has-error' : '' }}">
                                         <input type="file" id="profile-img" name="profile" class="form-control-file" placeholder="Fill Name">
-                                        <input type="hidden" name="profile_name" value="value=" {{ Auth::user()->profile }}"">
+                                        <input type="hidden" name="profile_name" value=" {{ Auth::user()->profile }}">
                                         @if ($errors->has('profile'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('profile') }}</strong>

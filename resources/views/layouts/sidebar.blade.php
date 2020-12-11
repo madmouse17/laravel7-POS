@@ -45,7 +45,9 @@
             </span>
             <h4 class="text-section">Main Menu</h4>
         </li>
-        <li class="nav-item {{ (Request::path() == 'admin/user') ? 'active' : '' }}">
+        <li class="nav-item {{ (Request::path() == 'admin/user') ? 'active' : '' }} {{ (Request::path() == 'admin/supplier') ? 'active' : '' }} 
+        {{ (Request::path() == 'admin/categories') ? 'active' : '' }}
+        {{ (Request::path() == 'admin/product') ? 'active' : '' }}">
             <a data-toggle="collapse" href="#base">
                 <i class="fas fa-layer-group"></i>
                 <p>Management Data</p>
@@ -58,65 +60,35 @@
                             <span class="sub-item">Manage User</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="{{ (Request::path() == 'admin/supplier') ? 'active' : '' }}">
                         <a href="{{ route('supplier.index') }}">
                             <span class="sub-item">Manage Supplier</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="{{ (Request::path() == 'admin/category') ? 'active' : '' }}">
                         <a href="{{ route('categories.index') }}">
                             <span class="sub-item">Manage Categories</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="{{ (Request::path() == 'admin/product') ? 'active' : '' }}">
                         <a href="{{ route('product.index') }}">
                             <span class="sub-item">Manage Product</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components/notifications.html">
-                            <span class="sub-item">Notifications</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components/sweetalert.html">
-                            <span class="sub-item">Sweet Alert</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components/font-awesome-icons.html">
-                            <span class="sub-item">Font Awesome Icons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components/simple-line-icons.html">
-                            <span class="sub-item">Simple Line Icons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components/flaticons.html">
-                            <span class="sub-item">Flaticons</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components/typography.html">
-                            <span class="sub-item">Typography</span>
                         </a>
                     </li>
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{ (Request::path() == 'admin/transaksi') ? 'active' : '' }}">
             <a data-toggle="collapse" href="#sidebarLayouts">
                 <i class="fas fa-th-list"></i>
-                <p>Sidebar Layouts</p>
+                <p>Manage Transaksi</p>
                 <span class="caret"></span>
             </a>
             <div class="collapse" id="sidebarLayouts">
                 <ul class="nav nav-collapse">
-                    <li>
-                        <a href="sidebar-style-1.html">
-                            <span class="sub-item">Sidebar Style 1</span>
+                    <li class="{{ (Request::path() == 'admin/transaksi') ? 'active' : '' }}">
+                        <a href="{{ route('transaksi.index') }}">
+                            <span class="sub-item">Transaksi</span>
                         </a>
                     </li>
                     <li>

@@ -54,6 +54,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/product_json','product_controller@product_json');
     Route::patch('admin/product/update/{id}', 'product_controller@update');
 
+    // ManageTransaksi
+    Route::resource('admin/transaksi', 'TransaksiController');
+    Route::get('admin/lihatproduct_json', 'TransaksiController@product_json');
+    Route::post('admin/transaksi/addProduct/', 'TransaksiController@addProductCart')->name('add.product');
+    Route::post('admin/transaksi/removeProduct/{id}', 'TransaksiController@removeProductCart')->name('remove.product');
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');
     // Route::resource('admin/profile', 'profile_controller');
