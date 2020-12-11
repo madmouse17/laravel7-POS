@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/supplier_json','supplier_controller@supplier_json');
     Route::patch('admin/supplier/update/{id}', 'supplier_controller@update');
 
-    
+
     //Manage Product
     Route::resource('admin/product', 'product_controller');
     Route::get('admin/product_json','product_controller@product_json');
@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::patch('admin/profile/update', 'user_controller@update');
 });
 
-Auth::routes(['register'=> false, 'reset'=>false]); 
+Auth::routes(['register'=> false, 'reset'=>false]);
 Route::get('/logout', function () {
     Auth::logout();
         return redirect('/');

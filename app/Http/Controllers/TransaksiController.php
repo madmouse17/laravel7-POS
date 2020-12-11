@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Alert;
 use Session;
 use Yajra\Datatables\Datatables;
-use Redirect, Response;
+use Redirect;
+use Response;
 use Darryldecode\Cart\CartCondition;
 
 class TransaksiController extends Controller
@@ -20,47 +21,45 @@ class TransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
-        $setting=setting::where('id',1)->first();
+        $setting=setting::where('id', 1)->first();
         $data ='Transaksi';
 
-       
- $condition = new \Darryldecode\Cart\CartCondition(array(
+
+        $condition = new \Darryldecode\Cart\CartCondition(array(
                 'name' => 'discount',
                 'type' => 'tax', //tipenya apa
                 'target' => 'total', //target kondisi ini apply ke mana (total, subtotal)
                 'value' => '0%', //contoh -12% or -10 or +10 etc
-               
-            ));  
-    \Cart::session(Auth()->id())->condition($condition); 
+
+            ));
+        \Cart::session(Auth()->id())->condition($condition);
         $items = \Cart::session(Auth()->id())->getContent();
-        
-        if(\Cart::isEmpty()){
-            $cart_data = [];            
-        }
-        else{
-            foreach($items as $row) {
+
+        if (\Cart::isEmpty()) {
+            $cart_data = [];
+        } else {
+            foreach ($items as $row) {
                 $cart[] = [
                     'rowId' => $row->id,
                     'name' => $row->name,
                     'qty' => $row->quantity,
                     'pricesingle' => $row->price,
                     'price' => $row->getPriceSum(),
-                ];           
+                ];
             }
-            
-            $cart_data = collect($cart);
 
+            $cart_data = collect($cart);
         }
-        
-       
+
+
 
         $sub_total = \Cart::session(Auth()->id())->getSubTotal();
         $total = \Cart::session(Auth()->id())->getTotal();
-      
+
         $new_condition = \Cart::session(Auth()->id())->getCondition('discount');
-        $discount = $new_condition->getCalculatedValue($sub_total); 
+        $discount = $new_condition->getCalculatedValue($sub_total);
 
         $data_total = [
             'sub_total' => $sub_total,
@@ -68,7 +67,7 @@ class TransaksiController extends Controller
             'discount' => $discount,
         ];
 
-        return view ('admin.transaksi.transaksi_index',compact('setting','data','cart_data','data_total'));
+        return view('admin.transaksi.transaksi_index', compact('setting', 'data', 'cart_data', 'data_total'));
     }
 
     public function product_json()
@@ -79,11 +78,11 @@ class TransaksiController extends Controller
             //     return date("m/d/Y", strtotime($data->created_at));
             // })
             ->addColumn('action', function ($data) {
-                $button ='<button type ="button" class="btn btn-success align-right btn-sm" name="select" id="select" 
-                    data-id="'.$data->id.'" 
+                $button ='<button type ="button" class="btn btn-success align-right btn-sm" name="select" id="select"
+                    data-id="'.$data->id.'"
                     data-barcode="'.$data->barcode.'"
                     data-name="'.$data->name.'"
-                    data-sell="'.$data->sell.'" 
+                    data-sell="'.$data->sell.'"
                     data-buy="'.$data->buy.'"
                     data-stock="'.$data->stock.'"
                 ><i class="fas fa-check"></i></button>';
@@ -92,17 +91,18 @@ class TransaksiController extends Controller
                 // <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
                 return $button;
             })
-            
+
             ->rawColumns(['action'])
             ->make(true);
     }
 
-    public function addProductCart(Request $request){
-        // $product = Product::find($id);      
-                
-        $cart = \Cart::session(Auth()->id())->getContent();        
-        // $cek_itemId = $cart->whereIn('id', $id);  
-      
+    public function addProductCart(Request $request)
+    {
+        // $product = Product::find($id);
+
+        $cart = \Cart::session(Auth()->id())->getContent();
+        // $cek_itemId = $cart->whereIn('id', $id);
+
         // if($cek_itemId->isNotEmpty()){
         //     if($product->qty == $cek_itemId[$id]->quantity){
         //         return redirect()->back()->with('error','jumlah item kurang');
@@ -110,21 +110,22 @@ class TransaksiController extends Controller
         //         \Cart::session(Auth()->id())->update($id, array(
         //             'quantity' => 1
         //         ));
-        //     }            
+        //     }
         // }else{
-             \Cart::session(Auth()->id())->add(array(
+        \Cart::session(Auth()->id())->add(array(
             'id' => $request['product_id'],
             'name' => $request['name'],
             'price' => $request['sell'],
-            'quantity' => $request['qty'], 
+            'quantity' => $request['qty'],
         ));
-              
+
 
         return redirect()->back();
     }
-    public function removeProductCart($id){
-        \Cart::session(Auth()->id())->remove($id);     
-                         
+    public function removeProductCart($id)
+    {
+        \Cart::session(Auth()->id())->remove($id);
+
         return redirect()->back();
     }
 
