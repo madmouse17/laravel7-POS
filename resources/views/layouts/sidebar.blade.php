@@ -84,7 +84,7 @@
                 <p>Manage Transaksi</p>
                 <span class="caret"></span>
             </a>
-            <div class="collapse" id="sidebarLayouts">
+            <div class="collapse {{ (Request::path() == 'admin/transaksi' || Request::path() == 'admin/my-transaksi') ? 'show' : '' }}" id="sidebarLayouts">
                 <ul class="nav nav-collapse">
                     <li class="{{ (Request::path() == 'admin/transaksi') ? 'active' : '' }}">
                         <a href="{{ route('transaksi.index') }}">

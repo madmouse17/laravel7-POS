@@ -19,6 +19,8 @@
 		});
     </script>
 
+    @stack('styles')
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset ('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/atlantis.min.css') }}">
@@ -32,7 +34,6 @@
             color: red;
         }
     </style>
-    @stack('styles')
 </head>
 
 <body>
@@ -42,7 +43,7 @@
         @include('layouts.sidebar')
 
         <div class="main-panel">
-            <div class="content" id="app">
+            <div class="container">
                 @yield('content')
             </div>
 

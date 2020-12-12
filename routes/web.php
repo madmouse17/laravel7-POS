@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\setting;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,7 @@ use App\setting;
 */
 
 Route::get('/', function () {
-    $setting=setting::where('id', 1)->first();
+    $setting = setting::where('id', 1)->first();
     return view('auth.login', compact('setting'));
 });
 
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
     //Manage Product
+    Route::get('admin/product/search', 'product_controller@search')->name('product.search');
     Route::resource('admin/product', 'product_controller');
     Route::get('admin/product_json', 'product_controller@product_json');
     Route::patch('admin/product/update/{id}', 'product_controller@update');

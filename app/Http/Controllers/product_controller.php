@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Alert;
 use Session;
 use Yajra\Datatables\Datatables;
-use Redirect, Response;
-
+use Redirect;
+use Response;
 
 class product_controller extends Controller
 {
@@ -23,12 +23,12 @@ class product_controller extends Controller
      */
     public function index()
     {
-        $setting = setting::where('id',1)->first();
+        $setting = setting::where('id', 1)->first();
         $category=category::get();
         $supplier=supplier::get();
         $product=product::all();
         //  dd($product);
-    return view('admin.product.product_index',compact('setting','category','supplier','product'));
+        return view('admin.product.product_index', compact('setting', 'category', 'supplier', 'product'));
     }
 
     public function product_json()
@@ -51,9 +51,8 @@ class product_controller extends Controller
                 &nbsp;&nbsp;&nbsp;
                 <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
                 return $button;
-                
             })
-            
+
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -163,5 +162,21 @@ class product_controller extends Controller
     {
         $product = product::find($id)->delete();
         return redirect()->back()->withSuccess('Product Deleted Succesfully!');
+    }
+
+    /**
+     * Search resource based on given params
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $query = product::query()
+            ->where('barcode', 'LIKE', '%' . $request->q . '%')
+            ->orWhere('name', 'LIKE', '%' . $request->q . '%');
+        $result = $query->get();
+
+        return response()->json($result);
     }
 }
