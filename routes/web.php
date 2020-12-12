@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     // My Transaksi routes
     Route::name('my-transaksi')->group(function () {
         Route::get('/admin/my-transaksi', 'MyTransaksiController@index');
+        Route::post('/admin/my-transaksi', 'MyTransaksiController@submit')->name('.submit');
     });
     // Route::patch('admin/user/update/{id}', 'user_controller@update');
     // Route::get('admin/user/delete/{id}', 'user_controller@destroy');

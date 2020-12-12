@@ -6,13 +6,8 @@ use App\transaksi;
 use Illuminate\Http\Request;
 use App\setting;
 use App\product;
-use Illuminate\Support\Facades\Validator;
-use Alert;
-use Session;
+use App\transaksiDetail;
 use Yajra\Datatables\Datatables;
-use Redirect;
-use Response;
-use Darryldecode\Cart\CartCondition;
 
 class MyTransaksiController extends Controller
 {
@@ -27,6 +22,47 @@ class MyTransaksiController extends Controller
         $data = 'Transaksi';
 
         return view('admin.my-transaksi.form', compact('data', 'setting'));
+    }
+
+    /**
+     * Store/update a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function submit(Request $request)
+    {
+        $response = [
+            'status' => false,
+            'message' => 'Failed to submit inventory data'
+        ];
+
+        // Process request
+        $summary = json_decode($request->summary);
+        $process = transaksi::process($summary);
+        if (isset($process['status']) && !$process['status']) {
+            return response()->json($process, 422);
+        }
+        $collection = $process['collection'];
+        $data = $collection->except('products')->toArray();
+        if (isset($data['id'])) {
+            $params = ['id' => $data['id']];
+            $model = transaksi::updateOrCreate($params, $data);
+        } else {
+            $model = new transaksi();
+            $model = $model->create($data);
+        }
+        if (isset($collection['products'])) {
+            foreach ($collection['products'] as $row) {
+                $response['transaksi_details'][] = transaksiDetail::updateOrCreate(['transaksi_id' => $model->id, 'product_id' => $row['product_id']], $row->toArray());
+            }
+        }
+        $response['status'] = true;
+        $response['message'] = 'Successfully submit transaksi data';
+        $response['redirect'] = route('my-transaksi');
+        $response['model'] = $model;
+
+        return response()->json($response);
     }
 
     public function product_json()
@@ -53,40 +89,6 @@ class MyTransaksiController extends Controller
 
             ->rawColumns(['action'])
             ->make(true);
-    }
-
-    public function addProductCart(Request $request)
-    {
-        // $product = Product::find($id);
-
-        $cart = \Cart::session(Auth()->id())->getContent();
-        // $cek_itemId = $cart->whereIn('id', $id);
-
-        // if($cek_itemId->isNotEmpty()){
-        //     if($product->qty == $cek_itemId[$id]->quantity){
-        //         return redirect()->back()->with('error','jumlah item kurang');
-        //     }else{
-        //         \Cart::session(Auth()->id())->update($id, array(
-        //             'quantity' => 1
-        //         ));
-        //     }
-        // }else{
-        \Cart::session(Auth()->id())->add(array(
-            'id' => $request['product_id'],
-            'name' => $request['name'],
-            'price' => $request['sell'],
-            'quantity' => $request['qty'],
-        ));
-
-
-        return redirect()->back();
-    }
-
-    public function removeProductCart($id)
-    {
-        \Cart::session(Auth()->id())->remove($id);
-
-        return redirect()->back();
     }
 
     /**

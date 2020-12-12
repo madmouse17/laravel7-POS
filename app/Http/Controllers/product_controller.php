@@ -9,10 +9,10 @@ use App\product;
 use App\supplier;
 use Illuminate\Support\Facades\Validator;
 use Alert;
+use Illuminate\Http\Response;
 use Session;
 use Yajra\Datatables\Datatables;
 use Redirect;
-use Response;
 
 class product_controller extends Controller
 {
