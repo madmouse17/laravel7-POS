@@ -1,17 +1,34 @@
-function addProduct(product_id, product_barcode, product_name, price, qty) {
+function addProduct(
+    product_id,
+    product_barcode,
+    product_name,
+    product_stock,
+    price,
+    qty
+) {
     var self = this;
 
     self.product_id = ko.observable(product_id);
     self.product_barcode = ko.observable(product_barcode);
     self.product_name = ko.observable(product_name);
+    self.product_stock = ko.observable(product_stock);
     self.product = ko.computed(() => {
         return self.product_barcode() + " - " + self.product_name();
     });
     self.price = ko.observable(price);
     self.qty = ko.observable(qty);
+
+    // Calculations
+    self.calculated_stock = ko.computed(() => {
+        var total = 0;
+        var product_stock = self.product_stock() ? self.product_stock() : 0;
+        var qty = self.qty() ? self.qty() : 0;
+        total = parseFloat(product_stock) - parseFloat(qty);
+        return total;
+    });
     self.total = ko.computed(() => {
-        var price = self.price();
-        var qty = self.qty();
+        var price = self.price() ? self.price() : 0;
+        var qty = self.qty() ? self.qty() : 0;
         var total = parseFloat(price) * parseFloat(qty);
 
         return total;

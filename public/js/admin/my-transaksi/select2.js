@@ -43,7 +43,14 @@ $("#product_select")
         }
         if (is_new) {
             MY.VM.products.push(
-                new addProduct(item.id, item.barcode, item.name, item.sell, 1)
+                new addProduct(
+                    item.id,
+                    item.barcode,
+                    item.name,
+                    item.stock,
+                    item.sell,
+                    1
+                )
             );
         }
         $("#product_select")

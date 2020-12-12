@@ -62,15 +62,16 @@
                     <div class="row">
                         <div class="card" style="width: 90%;">
                             <div class="table-responsive">
-                                <table id="transaksi-table" class="table table-striped table-hover">
+                                <table id="transaksi-table" class="table table-striped table-hover" style="width: 750px;">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
-                                            <th>Product Name</th>
-                                            <th>Price</th>
-                                            <th>Qty</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
+                                            <th style="width: 50px;">No</th>
+                                            <th style="width: 200px;">Product Name</th>
+                                            <th style="width: 100px;">Price</th>
+                                            <th style="width: 100px;">Stock</th>
+                                            <th style="width: 150px;">Qty</th>
+                                            <th style="width: 100px;">Total</th>
+                                            <th style="width: 50px;">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody data-bind="foreach: products">
@@ -81,6 +82,9 @@
                                             </td>
                                             <td>
                                                 <span data-bind="text: price"></span>
+                                            </td>
+                                            <td>
+                                                <span data-bind="text: calculated_stock"></span>
                                             </td>
                                             <td>
                                                 <input type="text" class="form-control" data-bind="textInput: qty" style="height: unset !important;">
