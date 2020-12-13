@@ -39,7 +39,7 @@ function viewModel() {
     var self = this;
 
     self.id = ko.observable(null);
-    self.invoice_id = ko.observable(null);
+    // self.invoice_id = ko.observable(null);
 
     // Save products in this computed variable
     self.products = ko.observableArray();
@@ -48,7 +48,7 @@ function viewModel() {
     self.subtotal = ko.computed(() => {
         var total = 0;
         if (self.products().length > 0) {
-            self.products().map(item => {
+            self.products().map((item) => {
                 total = parseFloat(total) + parseFloat(item.total());
             });
         }
@@ -77,7 +77,7 @@ function viewModel() {
     });
 
     // Remove product
-    self.removeProduct = item => {
+    self.removeProduct = (item) => {
         self.products.remove(item);
     };
 }

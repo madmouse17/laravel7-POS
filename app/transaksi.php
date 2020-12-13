@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class transaksi extends Model
 {
@@ -64,7 +65,10 @@ class transaksi extends Model
             $collection->put('created_by', Auth::user()->id);
             $collection->put('updated_by', Auth::user()->id);
         }
-        $collection->put('invoice_id', $request->invoice_id);
+        $generate = IdGenerator::generate(['table' => 'transaksis', 'length' => 10, 'prefix' =>'INV-'.date('ym').Auth::user()->id, 'field' => 'invoice_id']);
+        
+        $collection->put('invoice_id', $generate);
+        // $collection->put('invoice_id', $request->invoice_id);
         $collection->put('cashier_id', Auth::user()->id);
         $collection->put('subtotal', $request->subtotal);
         $collection->put('discount', $request->discount);

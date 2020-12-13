@@ -36,10 +36,23 @@ class transaksiDetail extends Model
      */
     public static function process($request)
     {
+         // $response = [
+        //     'status' => false,
+        //     'message' => 'Failed to process data',
+        // ];
         $collection = collect();
         if (isset($request->transaksi_id)) {
             $collection->put('transaksi_id', $request->transaksi_id);
         }
+
+        $product = product::find($request->product_id);
+        if($product->stock <= $request->qty){
+            $response['message'] = 'product tidak mencukupi.';
+            return $response;
+        }
+        $product->stock =$product->stock - $request->qty;
+        $product->save();
+        
         $collection->put('product_id', $request->product_id);
         $collection->put('price', $request->price);
         $collection->put('qty', $request->qty);
