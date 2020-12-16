@@ -8,6 +8,7 @@ use App\setting;
 use App\product;
 use App\transaksiDetail;
 use Yajra\Datatables\Datatables;
+use PDF;
 
 class MyTransaksiController extends Controller
 {
@@ -112,8 +113,12 @@ class MyTransaksiController extends Controller
     
             $start = $request->start;
             $end = $request->end;
-            $td =transaksiDetail::whereBetween('created_at',[$start,$end])->get();
-            $pdf = PDF::loadview('admin.my-transaksi.download',['td'=>$td,]);
+            $transaksiDetail =transaksiDetail::whereBetween('created_at',[$start,$end])->get();
+            $total_transaksi= transaksiDetail::whereBetween('created_at',[$start,$end])->sum('price');
+            $product= product::whereBetween('created_at',[$start,$end])->sum('buy');
+            $laba = $total_transaksi - $product;
+            // dd($td);
+            $pdf = PDF::loadview('admin.my-transaksi.download',['transaksiDetail'=>$transaksiDetail],['laba'=>$laba]);
             $pdf->setPaper('A4', 'landscape');
          return $pdf->stream();
           

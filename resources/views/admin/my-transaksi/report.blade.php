@@ -34,8 +34,8 @@
                 </div>
                 <div class="card-body">
 
-                    <form role="form" action="{{ route('my-transaksi.download') }}" method="POST">
-                        {{ csrf_field() }}
+                    <form role="form" action="{{ route('my-transaksi.download') }}" method="GET">
+
                         <div class="form-group  {{ $errors->has('start') ? ' has-error' : '' }}">
                             <label for="start">Start</label>
                             <input id="start" type="date" class="form-control input-solid datepicker" required="" name="start">
