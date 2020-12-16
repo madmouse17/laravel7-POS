@@ -46,18 +46,16 @@ class transaksiDetail extends Model
         }
 
         $product = product::find($request->product_id);
-        if($product->stock <= $request->qty){
+        if($product->stock <= $request->qty  ){
             $response['message'] = 'product tidak mencukupi.';
             return $response;
         }
         $product->stock =$product->stock - $request->qty;
         $product->save();
-        
         $collection->put('product_id', $request->product_id);
         $collection->put('price', $request->price);
         $collection->put('qty', $request->qty);
         $collection->put('total', $request->total);
-
         return $collection;
     }
 }

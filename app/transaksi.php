@@ -88,6 +88,7 @@ class transaksi extends Model
             }
             $products->push(transaksiDetail::process($item));
         }
+        
         if (isset($request->id)) {
             transaksiDetail::where('transaksi_id', $request->id)->delete();
         }

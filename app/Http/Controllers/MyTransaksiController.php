@@ -91,14 +91,32 @@ class MyTransaksiController extends Controller
             ->make(true);
     }
 
+    public function report(Request $request){
+        $setting = setting::where('id', 1)->first();
+        $data = 'Report Transaksi';
+    return view('admin.my-transaksi.report', compact('data', 'setting'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $this->validate($request, [
+            'start' => 'required',
+            'end' => 'required',
+            
+        ]);
+    
+            $start = $request->start;
+            $end = $request->end;
+            $td =transaksiDetail::whereBetween('created_at',[$start,$end])->get();
+            $pdf = PDF::loadview('admin.my-transaksi.download',['td'=>$td,]);
+            $pdf->setPaper('A4', 'landscape');
+         return $pdf->stream();
+          
     }
 
     /**

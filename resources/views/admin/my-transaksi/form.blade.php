@@ -45,7 +45,7 @@
                                 <label for="cashier_id">Cashier</label>
                                 <input id="cashier_id" type="text" class="form-control" name="cashier_id" value="{{ Auth::user()->username }}" readonly required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group col-12">
                                 <label for="product_select">Product</label>
                                 <div class="select2-input">
                                     <select name="product_select" id="product_select" class="form-control">
@@ -80,7 +80,7 @@
                                             <span data-bind="text: product"></span>
                                         </td>
                                         <td>
-                                            <span data-bind="text: price"></span>
+                                            <span data-bind="text: price" class="input-number"></span>
                                         </td>
                                         <td>
                                             <span data-bind="text: calculated_stock"></span>
@@ -89,7 +89,7 @@
                                             <input type="text" class="form-control" data-bind="textInput: qty" style="height: unset !important;">
                                         </td>
                                         <td>
-                                            <span data-bind="text: total"></span>
+                                            <span data-bind="text: total" class="input-number"></span>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-danger align-right btn-sm" data-bind="click: $root.removeProduct">
@@ -112,33 +112,33 @@
                                             <label for="invoice">Subtotal</label>
                                         </div>
                                         <div class="d-flex">
-                                            <span data-bind="text: subtotal"></span>
+                                            <span data-bind="text: subtotal" class="input-number"></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="discount">Discount</label>
-                                        <input id="discount" type="string" class="form-control" name="discount" placeholder="Discount..." data-bind="textInput: discount">
+                                        <input id="discount" type="string" class="form-control input-number" name="discount" placeholder="Discount..." data-bind="textInput: discount">
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex">
                                             <label for="invoice">Grand Total</label>
                                         </div>
                                         <div class="d-flex">
-                                            <span data-bind="text: grandtotal"></span>
+                                            <span data-bind="text: grandtotal" class="input-number"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="payment">Cash</label>
-                                        <input id="payment" type="text" class="form-control" name="payment" placeholder="Cash..." data-bind="textInput: payment" required>
+                                        <input id="payment" type="text" class="form-control input-number" name="payment" placeholder="Cash..." data-bind="textInput: payment" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex">
                                             <label for="invoice">Remain</label>
                                         </div>
                                         <div class="d-flex">
-                                            <span data-bind="text: change"></span>
+                                            <span data-bind="text: change" class="input-number"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -170,6 +170,19 @@
 <script>
     var submitUrl = "{{ route('my-transaksi.submit') }}";
         var searchProductRoute = "{{ route('product.search') }}";
+
+// function initcleave() {
+//     $(".input-number")
+//         .toArray()
+//         .forEach(field => {
+//             new Cleave(field, {
+//                 numeral: true,
+//                 numeralDecimalMark: "thousand",
+//                 delimiter: ".",
+//             });
+//         });
+// }
+// initcleave();
 </script>
 <script src="{{ asset('js/admin/my-transaksi/knockout.js') }}"></script>
 <script src="{{ asset('js/admin/my-transaksi/select2.js') }}"></script>
