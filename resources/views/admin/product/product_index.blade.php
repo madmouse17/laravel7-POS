@@ -108,9 +108,11 @@
                             </span>
                             @endif
                         </div>
+                        @can('product-create')
                         <div class="card-action">
                             <button class="btn btn-success align-right">Save</button>
                         </div>
+                        @endcan
                     </form>
                 </div>
             </div>
@@ -352,7 +354,6 @@ $(document).on('click', '#edit', function () {
         $('#supplier_id1').val(data.supplier_id);
         $('#form-edit').attr("action", "/admin/product/update/" + data.id);
     })
-
 });
 </script>
 @endpush

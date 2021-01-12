@@ -3,26 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use DB;
 use App\setting;
-use App\supplier;
-use Session;
-use Alert;
-use Redirect,Response;
 use Yajra\Datatables\Datatables;
-use Illuminate\Support\Facades\Validator;
-class supplier_controller extends Controller
+use Response;
+use Alert;
+class RoleController extends Controller
 {
-      /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
      function __construct()
     {
-         $this->middleware('permission:supplier-list|supplier-create|supplier-edit|supplier-delete', ['only' => ['index']]);
-         $this->middleware('permission:supplier-create', ['only' => ['store']]);
-         $this->middleware('permission:supplier-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:supplier-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:role-create', ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -32,7 +32,9 @@ class supplier_controller extends Controller
     public function index()
     {
         $setting=setting::where('id',1)->first();
-        return view ('admin.supplier.supplier_index',compact('setting'));
+        $permission = Permission::get();
+      
+    return view('admin.role.role_index',compact('permission','setting'));
     }
 
     /**
@@ -44,20 +46,50 @@ class supplier_controller extends Controller
     {
         //
     }
-    public function supplier_json(Request $request)
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|unique:roles,name',
+            'permission' => 'required',
+        ]);
+
+
+        $role = Role::create(['name' => $request->input('name')]);
+        $role->syncPermissions($request->input('permission'));
+
+
+        return redirect()->back()
+                        ->withSuccess('Role created successfully');
+    }
+
+    public function role_json(Request $request)
     {
         if ($request->ajax()) {
 
         $can_edit = $can_delete = '';
-            if (!auth()->user()->can('supplier-edit')) {
+            if (!auth()->user()->can('role-edit')) {
                 $can_edit = "style='display:none;'";
             }
-            if (!auth()->user()->can('supplier-delete')) {
+            if (!auth()->user()->can('role-delete')) {
                 $can_delete = "style='display:none;'";
             }
-        $data = supplier::query();
+        $data = role::query() ;
         return Datatables::of($data)
-            
+
+         ->editColumn('created_at', function ($data)  {
+                return $data->updated_at->format('d M Y');
+            })
+            ->editColumn('updated_at', function ($data) {
+                return $data->updated_at->format('d M Y');
+            })
+
             ->addColumn('action', function ($data)use ($can_edit, $can_delete) {
                 $button ='<button type ="button" class="btn btn-primary align-right btn-sm" name="edit" '. $can_edit .' id="edit" data-id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
                 $button .='
@@ -73,28 +105,6 @@ class supplier_controller extends Controller
          return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
       }
    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'alamat'=>'required',
-            'telp'=>'required'
-        ]);
-        supplier::create([
-            'name' => $request['name'],
-            'alamat' => $request['alamat'],
-            'telp' => $request['telp'],
-        ]);
-        // alert()->success('Success Title', 'Success Message');
-        return redirect()->back()->withSuccess('Supplier Created Successfully!');
-    }
 
     /**
      * Display the specified resource.
@@ -116,8 +126,9 @@ class supplier_controller extends Controller
     public function edit($id)
     {
         $where = array('id' => $id);
-        $supplier = supplier::where($where)->first();
-        return Response::json($supplier);
+        $role = role::where($where)->first();
+        return Response::json($role);
+      
     }
 
     /**
@@ -129,18 +140,22 @@ class supplier_controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update=supplier::find($id);
         $this->validate($request, [
             'name' => 'required',
-            'alamat'=>'required',
-            'telp'=>'required',
+            'permission' => 'required',
         ]);
-        $update->update([
-            'name' => $request['name'], 
-            'alamat' => $request['alamat'], 
-            'telp' => $request['telp'], 
-        ]);
-        return redirect()->back()->withSuccess('Supplier Update Succesfully!');
+
+
+        $role = Role::find($id);
+        $role->name = $request->input('name');
+        $role->save();
+
+
+        $role->syncPermissions($request->input('permission'));
+
+
+        return redirect()->back()
+                        ->withSuccess('Role updated successfully');
     }
 
     /**
@@ -151,7 +166,10 @@ class supplier_controller extends Controller
      */
     public function destroy($id)
     {
-        $supplier = supplier::find($id)->delete();
-        return redirect()->back()->withSuccess('Supplier Deleted Succesfully!');
+        
+        $role= role::find($id);
+        $role->delete();
+        return redirect()->back()
+                        ->withSuccess('Role deleted successfully');
     }
 }

@@ -9,13 +9,24 @@ use App\product;
 use App\supplier;
 use Illuminate\Support\Facades\Validator;
 use Alert;
-use Illuminate\Http\Response;
 use Session;
 use Yajra\Datatables\Datatables;
 use Redirect;
-
+use Response;
 class product_controller extends Controller
 {
+     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+     function __construct()
+    {
+         $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index']]);
+         $this->middleware('permission:product-create', ['only' => ['store']]);
+         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,31 +42,41 @@ class product_controller extends Controller
         return view('admin.product.product_index', compact('setting', 'category', 'supplier', 'product'));
     }
 
-    public function product_json()
+    public function product_json(Request $request)
     {
+            if ($request->ajax()) {
+
+            $can_edit = $can_delete = '';
+                if (!auth()->user()->can('product-edit')) {
+                    $can_edit = "style='display:none;'";
+                }
+                if (!auth()->user()->can('product-delete')) {
+                    $can_delete = "style='display:none;'";
+                }
         $data = product::with('category')
                        ->with('supplier')->select('products.*') ;
         return Datatables::of($data)
-            // ->editColumn("created_at", function ($data) {
-            //     return date("m/d/Y", strtotime($data->created_at));
-            // })
             ->editColumn('created_at', function ($data) {
                 return $data->updated_at->format('d M Y');
             })
             ->editColumn('updated_at', function ($data) {
                 return $data->updated_at->format('d M Y');
             })
-            ->addColumn('action', function ($data) {
-                $button ='<button type ="button" class="btn btn-primary align-right btn-sm" name="edit" id="edit" data-id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
+            ->addColumn('action', function ($data)use ($can_edit, $can_delete) {
+                $button ='<button type ="button" class="btn btn-primary align-right btn-sm" name="edit" '. $can_edit .' id="edit" data-id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
                 $button .='
                 &nbsp;&nbsp;&nbsp;
-                <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
+                <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" '. $can_delete .' id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
                 return $button;
             })
 
             ->rawColumns(['action'])
             ->make(true);
     }
+    else {
+         return response()->json(['status' => 'false', 'message' => "Access only ajax request"]);
+      }
+   }
 
     /**
      * Show the form for creating a new resource.

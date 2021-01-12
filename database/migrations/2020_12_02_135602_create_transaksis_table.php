@@ -15,13 +15,14 @@ class CreateTransaksisTable extends Migration
     {
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
-            $table->text('invoice');
-            $table->text('cashier');
-            $table->text('product_id');
-            $table->biginteger('barcode');
-            $table->integer('qty');
-            $table->biginteger('price');
-            $table->biginteger('total');
+            $table->string('invoice_id');
+            $table->biginteger('cashier_id');
+            $table->double('subtotal');
+            $table->double('discount');
+            $table->double('total');
+            $table->double('grandtotal');
+            $table->double('payment');
+            $table->double('change');
             $table->timestamps();
         });
     }

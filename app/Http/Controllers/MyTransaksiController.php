@@ -114,7 +114,7 @@ class MyTransaksiController extends Controller
             $start = $request->start;
             $end = $request->end;
             $transaksiDetail =transaksiDetail::whereBetween('created_at',[$start,$end])->get();
-            $total_transaksi= transaksiDetail::whereBetween('created_at',[$start,$end])->sum('price');
+            $total_transaksi= transaksi::whereBetween('created_at',[$start,$end])->sum('total');
             $product= product::whereBetween('created_at',[$start,$end])->sum('buy');
             $laba = $total_transaksi - $product;
             // dd($td);

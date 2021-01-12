@@ -14,42 +14,42 @@ Circles.create({
     wrpClass: "circles-wrp",
     textClass: "circles-text",
     styleWrapper: true,
-    styleText: true
+    styleText: true,
 });
 
-//Notify
+// Notify;
 // $.notify({
 //     icon: "flaticon-alarm-1",
 //     title: "Atlantis",
-//     message: "Premium Bootstrap 4 Admin Dashboard"
+//     message: "Premium Bootstrap 4 Admin Dashboard",
 // }, {
 //     type: "secondary",
 //     placement: {
 //         from: "bottom",
-//         align: "right"
+//         align: "right",
 //     },
-//     time: 1000
+//     time: 1000,
 // });
 
-// JQVmap
-$("#map-example").vectorMap({
-    map: "world_en",
-    backgroundColor: "transparent",
-    borderColor: "#fff",
-    borderWidth: 2,
-    color: "#e4e4e4",
-    enableZoom: true,
-    hoverColor: "#35cd3a",
-    hoverOpacity: null,
-    normalizeFunction: "linear",
-    scaleColors: ["#b6d6ff", "#005ace"],
-    selectedColor: "#35cd3a",
-    selectedRegions: ["ID", "RU", "US", "AU", "CN", "BR"],
-    showTooltip: true,
-    onRegionClick: function(element, code, region) {
-        return false;
-    }
-});
+// JQVmap;
+// $("#map-example").vectorMap({
+//     map: "world_en",
+//     backgroundColor: "transparent",
+//     borderColor: "#fff",
+//     borderWidth: 2,
+//     color: "#e4e4e4",
+//     enableZoom: true,
+//     hoverColor: "#35cd3a",
+//     hoverOpacity: null,
+//     normalizeFunction: "linear",
+//     scaleColors: ["#b6d6ff", "#005ace"],
+//     selectedColor: "#35cd3a",
+//     selectedRegions: ["ID", "RU", "US", "AU", "CN", "BR"],
+//     showTooltip: true,
+//     onRegionClick: function(element, code, region) {
+//         return false;
+//     },
+// });
 
 //Chart
 
@@ -70,7 +70,7 @@ var statisticsChart = new Chart(ctx, {
             "Sep",
             "Oct",
             "Nov",
-            "Dec"
+            "Dec",
         ],
         datasets: [{
                 label: "Subscribers",
@@ -93,8 +93,8 @@ var statisticsChart = new Chart(ctx, {
                     252,
                     312,
                     320,
-                    374
-                ]
+                    374,
+                ],
             },
             {
                 label: "New Visitors",
@@ -117,8 +117,8 @@ var statisticsChart = new Chart(ctx, {
                     331,
                     431,
                     456,
-                    521
-                ]
+                    521,
+                ],
             },
             {
                 label: "Active Users",
@@ -141,16 +141,16 @@ var statisticsChart = new Chart(ctx, {
                     568,
                     610,
                     700,
-                    900
-                ]
-            }
-        ]
+                    900,
+                ],
+            },
+        ],
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-            display: false
+            display: false,
         },
         tooltips: {
             bodySpacing: 4,
@@ -159,10 +159,10 @@ var statisticsChart = new Chart(ctx, {
             position: "nearest",
             xPadding: 10,
             yPadding: 10,
-            caretPadding: 10
+            caretPadding: 10,
         },
         layout: {
-            padding: { left: 5, right: 5, top: 15, bottom: 15 }
+            padding: { left: 5, right: 5, top: 15, bottom: 15 },
         },
         scales: {
             yAxes: [{
@@ -170,22 +170,22 @@ var statisticsChart = new Chart(ctx, {
                     fontStyle: "500",
                     beginAtZero: false,
                     maxTicksLimit: 5,
-                    padding: 10
+                    padding: 10,
                 },
                 gridLines: {
                     drawTicks: false,
-                    display: false
-                }
-            }],
+                    display: false,
+                },
+            }, ],
             xAxes: [{
                 gridLines: {
-                    zeroLineColor: "transparent"
+                    zeroLineColor: "transparent",
                 },
                 ticks: {
                     padding: 10,
-                    fontStyle: "500"
-                }
-            }]
+                    fontStyle: "500",
+                },
+            }, ],
         },
         legendCallback: function(chart) {
             var text = [];
@@ -203,8 +203,8 @@ var statisticsChart = new Chart(ctx, {
             }
             text.push("</ul>");
             return text.join("");
-        }
-    }
+        },
+    },
 });
 
 var myLegendContainer = document.getElementById("myChartLegend");
@@ -234,7 +234,7 @@ var myDailySalesChart = new Chart(dailySalesChart, {
             "June",
             "July",
             "August",
-            "September"
+            "September",
         ],
         datasets: [{
             label: "Sales Analytics",
@@ -253,16 +253,16 @@ var myDailySalesChart = new Chart(dailySalesChart, {
             pointHoverBorderWidth: 1,
             pointRadius: 1,
             pointHitRadius: 5,
-            data: [65, 59, 80, 81, 56, 55, 40, 35, 30]
-        }]
+            data: [65, 59, 80, 81, 56, 55, 40, 35, 30],
+        }, ],
     },
     options: {
         maintainAspectRatio: !1,
         legend: {
-            display: !1
+            display: !1,
         },
         animation: {
-            easing: "easeInOutBack"
+            easing: "easeInOutBack",
         },
         scales: {
             yAxes: [{
@@ -272,26 +272,26 @@ var myDailySalesChart = new Chart(dailySalesChart, {
                     fontStyle: "bold",
                     beginAtZero: !0,
                     maxTicksLimit: 10,
-                    padding: 0
+                    padding: 0,
                 },
                 gridLines: {
                     drawTicks: !1,
-                    display: !1
-                }
-            }],
+                    display: !1,
+                },
+            }, ],
             xAxes: [{
                 display: !1,
                 gridLines: {
-                    zeroLineColor: "transparent"
+                    zeroLineColor: "transparent",
                 },
                 ticks: {
                     padding: -20,
                     fontColor: "rgba(255,255,255,0.2)",
-                    fontStyle: "bold"
-                }
-            }]
-        }
-    }
+                    fontStyle: "bold",
+                },
+            }, ],
+        },
+    },
 });
 
 $("#activeUsersChart").sparkline(
@@ -300,7 +300,7 @@ $("#activeUsersChart").sparkline(
         height: "100",
         barWidth: 9,
         barSpacing: 10,
-        barColor: "rgba(255,255,255,.3)"
+        barColor: "rgba(255,255,255,.3)",
     }
 );
 
@@ -345,7 +345,7 @@ var myTopProductsChart = new Chart(topProductsChart, {
             "January",
             "February",
             "March",
-            "April"
+            "April",
         ],
         datasets: [{
             label: "Sales Analytics",
@@ -398,17 +398,17 @@ var myTopProductsChart = new Chart(topProductsChart, {
                 14,
                 19,
                 21,
-                17
-            ]
-        }]
+                17,
+            ],
+        }, ],
     },
     options: {
         maintainAspectRatio: !1,
         legend: {
-            display: !1
+            display: !1,
         },
         animation: {
-            easing: "easeInOutBack"
+            easing: "easeInOutBack",
         },
         scales: {
             yAxes: [{
@@ -418,24 +418,24 @@ var myTopProductsChart = new Chart(topProductsChart, {
                     fontStyle: "bold",
                     beginAtZero: !0,
                     maxTicksLimit: 10,
-                    padding: 0
+                    padding: 0,
                 },
                 gridLines: {
                     drawTicks: !1,
-                    display: !1
-                }
-            }],
+                    display: !1,
+                },
+            }, ],
             xAxes: [{
                 display: !1,
                 gridLines: {
-                    zeroLineColor: "transparent"
+                    zeroLineColor: "transparent",
                 },
                 ticks: {
                     padding: -20,
                     fontColor: "rgba(255,255,255,0.2)",
-                    fontStyle: "bold"
-                }
-            }]
-        }
-    }
+                    fontStyle: "bold",
+                },
+            }, ],
+        },
+    },
 });

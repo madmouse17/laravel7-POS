@@ -23,7 +23,6 @@
             </li>
         </ul>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -109,10 +108,26 @@
                                     <input id="password-confirm" type="password" class="form-control input-solid" required="" name="password_confirmation">
                                     <label for="password-confirm" class="placeholder">Retype-Password</label>
                                 </div>
+                                <div class="form-group form-floating-label {{ $errors->has('roles') ? ' has-error' : '' }}" ">
+                                <select class=" form-control input-solid id="selectFloatingLabel2" required="" name="roles">
+                                    <option value=''>&nbsp;</option>
+                                    @foreach($role as $ct)
+                                    <option value="{{$ct->id}}">{{$ct->name}}</option>
+                                    @endforeach
+                                    </select>
+                                    <label for="selectFloatingLabel2" class="placeholder">Role</label>
+                                    @if ($errors->has('roles'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('roles') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
+                            @can('user-create')
                             <div class="card-action">
                                 <button class="btn btn-success align-right">Save</button>
                             </div>
+                            @endcan
                     </div>
                 </div>
             </div>
@@ -212,6 +227,20 @@
                             <input type="password" name="password_confirmation" class="form-control" id="password-confirm1">
                         </div>
 
+                        <div class="form-group form-floating-label {{ $errors->has('roles') ? ' has-error' : '' }}" ">
+                            <select class=" form-control input-solid id="selectFloatingLabel2" required="" name="roles">
+                            <option value=''>&nbsp;</option>
+                            @foreach($role as $ct)
+                            <option value="{{$ct->id}}">{{$ct->name}}</option>
+                            @endforeach
+                            </select>
+                            <label for="selectFloatingLabel2" class="placeholder">Role</label>
+                            @if ($errors->has('roles'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('roles') }}</strong>
+                            </span>
+                            @endif
+                        </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

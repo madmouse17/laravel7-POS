@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\setting;
+use App\user;
+use App\product;
+use App\transaksi;
 use Session;
+use App\Charts\Day_Income;
+use App\Charts\Month_Income;
+use DB;
+use App\transaksiDetail;
+use Charts;
 class beranda_controller extends Controller
 {
     /**
@@ -15,7 +23,41 @@ class beranda_controller extends Controller
     public function index()
     {
         $setting=setting::where('id',1)->first();
-        return view('admin.dashboard.dashboard_index',compact('setting'));
+        $user = user::count();
+        $product=product::count();
+        $transaksi=transaksi::count();
+        $total_income= transaksi::sum('total');
+        $total_spend = product::sum('buy');
+      
+
+        // Day Income
+        $data = collect([]); // Could also be an array
+
+        for ($days_backwards = 7; $days_backwards >= 0; $days_backwards--) {
+        // Could also be an array_push if using an array rather than a collection.
+        $data->push(transaksi::whereDate('created_at', today()->subDays($days_backwards))->count())  ;
+        }
+
+        $chart = new Day_income;
+        $chart->labels(['1 week ago','6 days ago','5 days ago','4 days ago','3 days ago','2 days ago', 'Yesterday', 'Today']);
+        $chart->dataset('Transaksi', 'bar', $data)
+            ->color("#ff910a")
+            ->backgroundcolor("#ff910a");
+
+            $transaksi_month = transaksiDetail::select([
+                DB::raw("DATE_FORMAT(created_at,'%M-%Y')as month"),
+                DB::raw("count(transaksi_id)as count")
+                ])
+            ->groupby('month')
+            ->orderby('month')
+            ->get();
+            // return $transaksi_month->values();
+            // dd($transaksi_month);
+            $chart_month = new Month_income;
+                  $chart_month->labels($transaksi_month->keys());
+                  $chart_month->dataset('Transaksi','line',$transaksi_month->values());
+                  
+        return view('admin.dashboard.dashboard_index',compact('setting','user','product','transaksi','total_income','total_spend','chart','chart_month'));
     }
 
     /**

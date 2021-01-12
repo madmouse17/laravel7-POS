@@ -45,43 +45,47 @@
             </span>
             <h4 class="text-section">Main Menu</h4>
         </li>
-        <li class="nav-item {{ (Request::path() == 'admin/user') ? 'active' : '' }} {{ (Request::path() == 'admin/supplier') ? 'active' : '' }}
-        {{ (Request::path() == 'admin/categories') ? 'active' : '' }}
-        {{ (Request::path() == 'admin/product') ? 'active' : '' }}">
+        <li class="nav-item {{ (Request::path() == 'admin/user' || Request::path() == 'admin/supplier'|| Request::path() == 'admin/category'|| Request::path() == 'admin/product') ? 'active submenu' : '' }}">
             <a data-toggle="collapse" href="#base">
                 <i class="fas fa-layer-group"></i>
                 <p>Management Data</p>
                 <span class="caret"></span>
             </a>
-            <div class="collapse" id="base">
+            <div class="collapse {{ (Request::path() == 'admin/user' || Request::path() == 'admin/supplier'|| Request::path() == 'admin/category'|| Request::path() == 'admin/product') ? 'show' : '' }}" id="base">
                 <ul class="nav nav-collapse">
+                    @can('user-list')
                     <li class="{{ (Request::path() == 'admin/user') ? 'active' : '' }}">
                         <a href=" {{ url('admin/user') }}">
                             <span class="sub-item">Manage User</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('supplier-list')
                     <li class="{{ (Request::path() == 'admin/supplier') ? 'active' : '' }}">
                         <a href="{{ route('supplier.index') }}">
                             <span class="sub-item">Manage Supplier</span>
                         </a>
                     </li>
+                    @endcan
                     <li class="{{ (Request::path() == 'admin/category') ? 'active' : '' }}">
                         <a href="{{ route('categories.index') }}">
                             <span class="sub-item">Manage Categories</span>
                         </a>
                     </li>
+                    @can('product-list')
                     <li class="{{ (Request::path() == 'admin/product') ? 'active' : '' }}">
                         <a href="{{ route('product.index') }}">
                             <span class="sub-item">Manage Product</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </div>
         </li>
         <li class="nav-item {{ (Request::path() == 'admin/report' || Request::path() == 'admin/my-transaksi') ? 'active submenu' : '' }}">
             <a data-toggle="collapse" href="#sidebarLayouts">
                 <i class="fas fa-th-list"></i>
-                <p>Manage Transaksi</p>
+                <p>Management Transaksi</p>
                 <span class="caret"></span>
             </a>
             <div class="collapse {{ (Request::path() == 'admin/report' || Request::path() == 'admin/my-transaksi') ? 'show' : '' }}" id="sidebarLayouts">
@@ -104,23 +108,25 @@
         </ul>
     </div>
     </li>
-    <li class="nav-item">
+    @can('role-list')
+    <li class="nav-item {{ (Request::path() == 'admin/role') ? 'active submenu' : '' }}">
         <a data-toggle="collapse" href="#forms">
             <i class="fas fa-pen-square"></i>
-            <p>Forms</p>
+            <p>Management Role</p>
             <span class="caret"></span>
         </a>
-        <div class="collapse" id="forms">
+        <div class="collapse {{ (Request::path() == 'admin/role') ? 'show' : '' }}" id="forms">
             <ul class="nav nav-collapse">
                 <li>
-                    <a href="forms/forms.html">
-                        <span class="sub-item">Basic Form</span>
+                    <a href="{{ url('admin/role') }}">
+                        <span class="sub-item">Manage Role</span>
                     </a>
                 </li>
             </ul>
         </div>
     </li>
-    <li class="nav-item">
+    @endcan
+    {{-- <li class="nav-item">
         <a data-toggle="collapse" href="#tables">
             <i class="fas fa-table"></i>
             <p>Tables</p>
@@ -235,7 +241,7 @@
                 </li>
             </ul>
         </div>
-    </li>
+    </li> --}}
     {{-- <li class="mx-4 mt-2">
                     <a href="http://themekita.com/atlantis-bootstrap-dashboard.html" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Buy Pro</a>
                 </li> --}}

@@ -65,7 +65,7 @@ class transaksi extends Model
             $collection->put('created_by', Auth::user()->id);
             $collection->put('updated_by', Auth::user()->id);
         }
-        $generate = IdGenerator::generate(['table' => 'transaksis', 'length' => 10, 'prefix' =>'INV-'.date('ym').Auth::user()->id, 'field' => 'invoice_id']);
+        $generate = IdGenerator::generate(['table' => 'transaksis', 'length' => 10, 'prefix' =>'INV-'.date('y'), 'field' => 'invoice_id']);
         
         $collection->put('invoice_id', $generate);
         // $collection->put('invoice_id', $request->invoice_id);

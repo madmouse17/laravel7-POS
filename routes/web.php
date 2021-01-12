@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('auth.login', compact('setting'));
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::resource('admin/beranda', 'beranda_controller');
 
     // Manage User
@@ -69,10 +69,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/admin/report', 'MyTransaksiController@report')->name('.report');
         Route::get('/admin/download', 'MyTransaksiController@create')->name('.download');
     });
-    // Route::patch('admin/user/update/{id}', 'user_controller@update');
-    // Route::get('admin/user/delete/{id}', 'user_controller@destroy');
-    // Route::resource('admin/profile', 'profile_controller');
-    // Route::patch('admin/profile/update', 'user_controller@update');
+
+    // Role & permission
+        Route::resource('/admin/role', 'RoleController');
+        Route::get('admin/role_json', 'Rolecontroller@role_json');
+        Route::patch('admin/role/update/{id}', 'Rolecontroller@update');
+        Route::get('admin/role/delete/{id}', 'Rolecontroller@destroy');;
 });
 
 Auth::routes(['register'=> false, 'reset'=>false]);
