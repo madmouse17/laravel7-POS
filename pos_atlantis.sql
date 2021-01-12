@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2020 at 03:30 PM
+-- Generation Time: Jan 12, 2021 at 04:57 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -33,7 +33,7 @@ CREATE TABLE `categories` (
   `name` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `categories`
@@ -56,7 +56,7 @@ CREATE TABLE `failed_jobs` (
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `migrations`
@@ -81,7 +81,42 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2020_11_27_201014_create_settings_table', 2),
 (5, '2020_11_29_115426_create_categories_table', 3),
 (6, '2020_11_29_130355_create_suppliers_table', 4),
-(7, '2020_11_29_165926_create_products_table', 5);
+(7, '2020_11_29_165926_create_products_table', 5),
+(8, '2020_11_27_222748_add_username_column_to_users_table', 6),
+(9, '2020_11_29_174635_add_relationships_to_products_table', 6),
+(10, '2021_01_03_230801_create_permission_tables', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\User', 1),
+(2, 'App\\User', 63);
 
 -- --------------------------------------------------------
 
@@ -93,7 +128,7 @@ CREATE TABLE `password_resets` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `password_resets`
@@ -101,6 +136,43 @@ CREATE TABLE `password_resets` (
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 ('adam@mail.com', '$2y$10$S7qEH97fh8l59Mvg98fhSOLMH9tt3TymAeH6B2RyD0ijOu0HbdFmi', '2020-11-24 11:07:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'user-list', 'web', '2021-01-11 11:01:33', '2021-01-11 11:01:33'),
+(2, 'user-create', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(3, 'user-edit', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(4, 'user-delete', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(5, 'supplier-list', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(6, 'supplier-create', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(7, 'supplier-edit', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(8, 'supplier-delete', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(9, 'role-list', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(10, 'role-create', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(11, 'role-edit', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(12, 'role-delete', 'web', '2021-01-11 11:01:34', '2021-01-11 11:01:34'),
+(13, 'product-list', 'web', '2021-01-11 11:01:35', '2021-01-11 11:01:35'),
+(14, 'product-create', 'web', '2021-01-11 11:01:35', '2021-01-11 11:01:35'),
+(15, 'product-edit', 'web', '2021-01-11 11:01:35', '2021-01-11 11:01:35'),
+(16, 'product-delete', 'web', '2021-01-11 11:01:35', '2021-01-11 11:01:35'),
+(17, 'setting-list', 'web', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -119,15 +191,77 @@ CREATE TABLE `products` (
   `supplier_id` bigint(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `products`
 --
 
 INSERT INTO `products` (`id`, `barcode`, `name`, `category_id`, `buy`, `sell`, `stock`, `supplier_id`, `created_at`, `updated_at`) VALUES
-(1, 111, 'Roma', 2, 1000, 1500, 20, 3, '2020-11-29 12:16:13', '2020-12-01 16:09:40'),
-(3, 112, 'biskuit', 2, 2000, 1500, 50, 18, '2020-12-11 09:50:57', '2020-12-11 09:50:57');
+(1, 111, 'Roma', 2, 1000, 1500, 1, 3, '2020-11-29 12:16:13', '2020-12-13 10:09:26'),
+(3, 112, 'biskuit', 2, 2000, 1500, 35, 18, '2020-12-11 09:50:57', '2021-01-03 14:51:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'web', '2021-01-11 11:33:12', '2021-01-11 11:33:12'),
+(2, 'kasir', 'web', '2021-01-12 11:41:35', '2021-01-12 11:41:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(4, 1),
+(5, 1),
+(5, 2),
+(6, 1),
+(6, 2),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 1),
+(11, 1),
+(12, 1),
+(13, 1),
+(13, 2),
+(14, 1),
+(14, 2),
+(15, 1),
+(16, 1),
+(17, 1);
 
 -- --------------------------------------------------------
 
@@ -143,7 +277,7 @@ CREATE TABLE `settings` (
   `tagline` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `settings`
@@ -165,7 +299,7 @@ CREATE TABLE `suppliers` (
   `telp` bigint(20) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `suppliers`
@@ -5188,6 +5322,110 @@ INSERT INTO `suppliers` (`id`, `name`, `alamat`, `telp`, `created_at`, `updated_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transaksis`
+--
+
+CREATE TABLE `transaksis` (
+  `id` bigint(20) NOT NULL,
+  `invoice_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `cashier_id` bigint(20) NOT NULL,
+  `subtotal` double NOT NULL,
+  `discount` double NOT NULL,
+  `total` double NOT NULL,
+  `grandtotal` double NOT NULL,
+  `payment` double NOT NULL,
+  `change` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `transaksis`
+--
+
+INSERT INTO `transaksis` (`id`, `invoice_id`, `cashier_id`, `subtotal`, `discount`, `total`, `grandtotal`, `payment`, `change`, `created_at`, `updated_at`) VALUES
+(51, 'INV-000001', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:16:18', '2020-12-13 15:16:18'),
+(52, 'INV-201202', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:18:47', '2020-12-13 15:18:47'),
+(53, 'INV-201213', 1, 3000, 0, 3000, 3000, 5000, -2000, '2020-12-13 15:22:20', '2020-12-13 15:22:20'),
+(54, 'INV-201214', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:24:39', '2020-12-13 15:24:39'),
+(55, 'INV-201215', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:25:16', '2020-12-13 15:25:16'),
+(57, 'INV-201216', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:53:02', '2020-12-13 15:53:02'),
+(58, 'INV-201217', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:55:12', '2020-12-13 15:55:12'),
+(59, 'INV-201218', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:58:33', '2020-12-13 15:58:33'),
+(60, 'INV-201219', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:58:49', '2020-12-13 15:58:49'),
+(61, 'INV-2012110', 1, 1500, 0, 1500, 1500, 2000, -500, '2020-12-13 15:58:58', '2020-12-13 15:58:58'),
+(62, 'INV-2012110', 1, 1500, 0, 1500, 1500, 20000, -18500, '2020-12-13 16:09:27', '2020-12-13 16:09:27'),
+(63, 'INV-2012110', 1, 1500, 0, 1500, 1500, 20000, -18500, '2020-12-13 16:10:12', '2020-12-13 16:10:12'),
+(64, 'INV-2012110', 1, 1500, 0, 1500, 1500, 20000, -18500, '2020-12-13 16:11:36', '2020-12-13 16:11:36'),
+(65, 'INV-2012110', 1, 1500, 0, 1500, 1500, 20000, -18500, '2020-12-13 16:11:44', '2020-12-13 16:11:44'),
+(66, 'INV-2012110', 1, 1500, 0, 1500, 1500, 20000, -18500, '2020-12-13 16:17:02', '2020-12-13 16:17:02'),
+(67, 'INV-2012110', 1, 1500, 0, 1500, 1500, 20000, -18500, '2020-12-13 16:18:38', '2020-12-13 16:18:38'),
+(68, 'INV-2012110', 1, 1500, 0, 1500, 1500, 5000, -3500, '2020-12-17 12:55:26', '2020-12-17 12:55:26'),
+(69, 'INV-2012110', 1, 1500, 0, 1500, 1500, 3000, -1500, '2020-12-17 12:59:12', '2020-12-17 12:59:12'),
+(70, 'INV-2012110', 1, 1500, 0, 1500, 1500, 67676, -66176, '2020-12-17 16:15:14', '2020-12-17 16:15:14'),
+(71, 'INV-20120000020', 1, 1500, 0, 1500, 1500, 2290, -790, '2020-12-17 16:17:18', '2020-12-17 16:17:18'),
+(72, 'INV-20120000020', 1, 1500, 0, 1500, 1500, 407655, -406155, '2020-12-17 16:18:08', '2020-12-17 16:18:08'),
+(73, '2012201220', 1, 1500, 0, 1500, 1500, 5000, -3500, '2020-12-17 16:22:16', '2020-12-17 16:22:16'),
+(74, '2012201220', 1, 1500, 0, 1500, 1500, 100000, -98500, '2020-12-17 16:22:28', '2020-12-17 16:22:28'),
+(75, 'INV-201220', 1, 1500, 0, 1500, 1500, 98988, -97488, '2020-12-17 16:28:41', '2020-12-17 16:28:41'),
+(76, 'INV-201221', 1, 1500, 0, 1500, 1500, 790099, -788599, '2020-12-17 16:29:48', '2020-12-17 16:29:48'),
+(77, 'INV-211222', 1, 1500, 0, 1500, 1500, 3000, -1500, '2021-01-03 14:51:01', '2021-01-03 14:51:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi_details`
+--
+
+CREATE TABLE `transaksi_details` (
+  `transaksi_id` bigint(20) NOT NULL,
+  `product_id` bigint(20) NOT NULL,
+  `price` double NOT NULL,
+  `qty` double NOT NULL,
+  `total` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `transaksi_details`
+--
+
+INSERT INTO `transaksi_details` (`transaksi_id`, `product_id`, `price`, `qty`, `total`, `created_at`, `updated_at`) VALUES
+(1, 1, 1500, 1, 1500, '2020-12-12 13:27:27', '2020-12-12 13:27:27'),
+(2, 3, 1500, 3, 4500, '2020-12-12 13:29:26', '2020-12-12 13:29:26'),
+(2, 1, 1500, 2, 3000, '2020-12-12 13:29:26', '2020-12-12 13:29:26'),
+(3, 1, 1500, 1, 1500, '2020-12-12 16:24:01', '2020-12-12 16:24:01'),
+(4, 1, 1500, 1, 1500, '2020-12-12 17:13:30', '2020-12-12 17:13:30'),
+(5, 1, 1500, 100, 150000, '2020-12-12 17:17:17', '2020-12-12 17:17:17'),
+(13, 1, 1500, 12, 18000, '2020-12-12 17:39:33', '2020-12-12 17:39:33'),
+(14, 1, 1500, 13, 19500, '2020-12-12 17:40:19', '2020-12-12 17:40:19'),
+(21, 1, 1500, 13, 19500, '2020-12-12 17:56:25', '2020-12-12 17:56:25'),
+(26, 1, 1500, 4, 6000, '2020-12-12 18:25:38', '2020-12-12 18:25:38'),
+(27, 1, 1500, 1, 1500, '2020-12-12 18:30:06', '2020-12-12 18:30:06'),
+(29, 1, 1500, 2, 3000, '2020-12-12 18:31:01', '2020-12-12 18:31:01'),
+(32, 1, 1500, 1, 1500, '2020-12-12 18:35:30', '2020-12-12 18:35:30'),
+(37, 1, 1500, 1, 1500, '2020-12-12 18:43:57', '2020-12-12 18:43:57'),
+(51, 3, 1500, 1, 1500, '2020-12-13 15:16:18', '2020-12-13 15:16:18'),
+(52, 1, 1500, 1, 1500, '2020-12-13 15:18:47', '2020-12-13 15:18:47'),
+(53, 1, 1500, 1, 1500, '2020-12-13 15:22:20', '2020-12-13 15:22:20'),
+(53, 3, 1500, 1, 1500, '2020-12-13 15:22:20', '2020-12-13 15:22:20'),
+(55, 3, 1500, 1, 1500, '2020-12-13 15:25:16', '2020-12-13 15:25:16'),
+(68, 3, 1500, 1, 1500, '2020-12-17 12:55:26', '2020-12-17 12:55:26'),
+(69, 3, 1500, 1, 1500, '2020-12-17 12:59:12', '2020-12-17 12:59:12'),
+(70, 3, 1500, 1, 1500, '2020-12-17 16:15:14', '2020-12-17 16:15:14'),
+(71, 3, 1500, 1, 1500, '2020-12-17 16:17:18', '2020-12-17 16:17:18'),
+(72, 3, 1500, 1, 1500, '2020-12-17 16:18:08', '2020-12-17 16:18:08'),
+(73, 3, 1500, 1, 1500, '2020-12-17 16:22:16', '2020-12-17 16:22:16'),
+(74, 3, 1500, 1, 1500, '2020-12-17 16:22:28', '2020-12-17 16:22:28'),
+(75, 3, 1500, 1, 1500, '2020-12-17 16:28:41', '2020-12-17 16:28:41'),
+(76, 3, 1500, 1, 1500, '2020-12-17 16:29:48', '2020-12-17 16:29:48'),
+(66, 3, 2500, 3, 8000, '2020-10-31 17:00:00', NULL),
+(77, 3, 1500, 1, 1500, '2021-01-03 14:51:01', '2021-01-03 14:51:01');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -5202,14 +5440,14 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `profile`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin sekali', '1606404692_profile2.jpg', 'admin@mail.com', 'admin', NULL, '$2y$12$Z6SzFdFtVUti1cFy.MnhrOF3V3GaqQm1YThuUqiwNNqjn9X4ZEsaW', 'Zm9qzpXLtzUxqi26FxIMp5QSp0X87koF4irZnah9KNVVeH2DMb2D7Kt2sdbT', '2020-11-22 17:00:00', '2020-11-28 13:56:02'),
+(1, 'admin sekali', '1606404692_profile2.jpg', 'admin@mail.com', 'admin', NULL, '$2y$10$Uhz6aXQKwEiJrlOn9msCi.g3W.gquaVRf6jOFG5IN82rNIHYW/xly', 'lSfBDW4b4sJbfyfuaHrmqU9x6KcTtE98bumF22v8rWMQ0aqLURiholIBCjDy', '2020-11-22 17:00:00', '2021-01-12 12:43:22'),
 (29, 'Mr. Mallory Renner', '3366bf3eb6477d6beeb12bbc80d1bb3b.jpg', 'whalvorson@example.org', '', '2020-11-23 05:41:24', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'l13kbu2TOd', '2020-11-23 05:41:41', '2020-11-23 05:41:41'),
 (33, 'Ms. Destiny Armstrong', 'd30c2fbe38db17e065e744154716bb14.jpg', 'zella50@example.org', '', '2020-11-23 05:41:30', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'MS9a72vURK', '2020-11-23 05:41:41', '2020-11-23 05:41:41'),
 (38, 'Ms. Brielle Marquardt', 'd15041c2267a5a20c7100b989911420b.jpg', 'weissnat.maegan@example.net', '', '2020-11-23 05:41:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'gFF8ZdC5P2', '2020-11-23 05:41:41', '2020-11-23 05:41:41'),
@@ -5222,7 +5460,8 @@ INSERT INTO `users` (`id`, `name`, `profile`, `email`, `username`, `email_verifi
 (58, 'Mr. Rick Dietrich DDS', '0', 'svonrueden@example.com', '', '2020-11-23 06:35:02', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'XX2efvsQuC', '2020-11-23 06:35:51', '2020-11-23 06:35:51'),
 (59, 'Leilani Boehm IV', '7ed2495197515c973a5333282402d887.jpg', 'braden.senger@example.net', '', '2020-11-23 06:35:23', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2xjbmiteV8', '2020-11-23 06:35:51', '2020-11-23 06:35:51'),
 (60, 'adam', '1606405874_talha.jpg', 'adam@mail.com', '', NULL, '$2y$10$MS2NXyHMzZj7J.Ka7vxtwentClY8Gt6rg.LPGsivdbPwmmQ9yqo9m', NULL, '2020-11-24 10:49:15', '2020-11-28 13:44:02'),
-(61, 'tiara kusuma', '1606551705_Another Danger - Font Cover 1.png', 'tiara@mail.com', '', NULL, '$2y$10$WWxmaFdeKyhoOkswsQVZmOcEKcxEH7i2drI8UN/Pvu0wYzTmAFBRa', NULL, '2020-11-28 08:20:41', '2020-11-28 08:40:27');
+(61, 'tiara kusuma', '1606551705_Another Danger - Font Cover 1.png', 'tiara@mail.com', '', NULL, '$2y$10$WWxmaFdeKyhoOkswsQVZmOcEKcxEH7i2drI8UN/Pvu0wYzTmAFBRa', NULL, '2020-11-28 08:20:41', '2020-11-28 08:40:27'),
+(63, 'Dawson Dickinson', '1610455118_15.png', 'ida12@mail.com', 'tiara', NULL, '$2y$10$vX6NToSTbKXuJuTfXkt5AO8uQ6lHYJ5ymj/r1EwmIXFbH.bmAD2qm', NULL, '2021-01-12 12:38:39', '2021-01-12 12:38:39');
 
 --
 -- Indexes for dumped tables
@@ -5232,50 +5471,89 @@ INSERT INTO `users` (`id`, `name`, `profile`, `email`, `username`, `email_verifi
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
+  ADD KEY `password_resets_email_index` (`email`) USING BTREE;
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `products_barcode_unique` (`barcode`);
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD UNIQUE KEY `products_barcode_unique` (`barcode`) USING BTREE;
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
 -- Indexes for table `settings`
 --
 ALTER TABLE `settings`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indexes for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `transaksis`
+--
+ALTER TABLE `transaksis`
+  ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id`) USING BTREE,
   ADD UNIQUE KEY `users_email_unique` (`email`,`username`) USING BTREE;
 
 --
@@ -5286,7 +5564,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -5298,13 +5576,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -5319,10 +5609,39 @@ ALTER TABLE `suppliers`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5004;
 
 --
+-- AUTO_INCREMENT for table `transaksis`
+--
+ALTER TABLE `transaksis`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
