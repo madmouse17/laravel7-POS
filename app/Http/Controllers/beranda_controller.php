@@ -13,6 +13,7 @@ use App\Charts\Month_Income;
 use DB;
 use App\transaksiDetail;
 use Charts;
+use Spatie\Activitylog\Models\Activity;
 class beranda_controller extends Controller
 {
     /**
@@ -29,7 +30,12 @@ class beranda_controller extends Controller
         $total_income= transaksi::sum('total');
         $total_spend = product::sum('buy');
       
-
+        $activity = json_decode(Activity::join('users','activity_log.causer_id','=','users.id')
+        ->orderby('activity_log.id','desc')
+        ->select(['activity_log.description','activity_log.log_name', 'users.username', 'activity_log.description', 'activity_log.properties', 'activity_log.updated_at'])
+        ->get()
+        ->take(5), true); 
+        // dd($lastActivity);
         // Day Income
         $data = collect([]); // Could also be an array
 
@@ -57,7 +63,7 @@ class beranda_controller extends Controller
                   $chart_month->labels($transaksi_month->keys());
                   $chart_month->dataset('Transaksi','line',$transaksi_month->values());
                   
-        return view('admin.dashboard.dashboard_index',compact('setting','user','product','transaksi','total_income','total_spend','chart','chart_month'));
+        return view('admin.dashboard.dashboard_index',compact('setting','user','product','transaksi','total_income','total_spend','chart','chart_month','activity'));
     }
 
     /**

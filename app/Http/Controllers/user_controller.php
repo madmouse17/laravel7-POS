@@ -54,7 +54,6 @@ class user_controller extends Controller
                 }
         $data = user::query();
         return Datatables::of($data)
-
             ->addColumn('action', function ($data) use ($can_edit, $can_delete) {
                 $button ='<button type ="button" class="btn btn-primary align-right btn-sm" name="edit" '. $can_edit .' id="edit" data-id="'.$data->id.'"><i class="fas fa-pencil-alt"></i></button>';
                 $button .='
@@ -63,7 +62,7 @@ class user_controller extends Controller
                 return $button;
             })
             
-            ->rawColumns(['action'])
+            ->rawColumns(['action','role'])
             ->make(true);
     }
     else {
@@ -201,7 +200,7 @@ class user_controller extends Controller
     {
         $user = user::where('id', $id)->first();
         Storage::delete('public/profile/' . $user->profile);
-        user::where('id', $id)->delete();
+        user::find($id)->delete();
 
         return redirect()->back()->withSuccess('User Deleted Succesfully!');
     }

@@ -103,13 +103,17 @@
                 <div class="card-header">
                     <div class="card-title">Feed Activity</div>
                 </div>
+
                 <div class="card-body">
                     <ol class="activity-feed">
+                        @foreach($activity as $act)
                         <li class="feed-item feed-item-secondary">
-                            <time class="date" datetime="9-25">Sep 25</time>
-                            <span class="text">Responded to need <a href="#">"Volunteer opportunity"</a></span>
+                            <time class="date" datetime="9-25">{{Carbon\Carbon::parse($act['updated_at']) ->format('d M Y')}}</time>
+                            <span class="text">{{ $act['description']}} <strong> {{ $act['properties']['attributes']['name'] }}</strong>
+                                <a href="#">by "{{ $act['username']}}"</a></span>
                         </li>
-                        <li class="feed-item feed-item-success">
+                        @endforeach
+                        {{-- <li class="feed-item feed-item-success">
                             <time class="date" datetime="9-24">Sep 24</time>
                             <span class="text">Added an interest <a href="#">"Volunteer Activities"</a></span>
                         </li>
@@ -124,9 +128,10 @@
                         <li class="feed-item feed-item-danger">
                             <time class="date" datetime="9-18">Sep 18</time>
                             <span class="text">Created need <a href="#">"Volunteer Opportunity"</a></span>
-                        </li>
+                        </li> --}}
                     </ol>
                 </div>
+
             </div>
         </div>
     </div>

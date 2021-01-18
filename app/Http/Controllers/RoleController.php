@@ -33,8 +33,9 @@ class RoleController extends Controller
     {
         $setting=setting::where('id',1)->first();
         $permission = Permission::get();
+       $role = role::all();
       
-    return view('admin.role.role_index',compact('permission','setting'));
+    return view('admin.role.role_index',compact('permission','setting','role'));
     }
 
     /**

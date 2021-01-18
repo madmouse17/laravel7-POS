@@ -43,7 +43,7 @@
                     <i class="fa fa-search"></i>
                 </a>
             </li>
-            <li class="nav-item dropdown hidden-caret">
+            {{-- <li class="nav-item dropdown hidden-caret">
                 <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-envelope"></i>
                 </a>
@@ -59,7 +59,7 @@
                             <div class="notif-center">
                                 <a href="#">
                                     <div class="notif-img">
-                                        {{-- <img src="../assets/img/jm_denis.jpg" alt="Img Profile"> --}}
+                                        <img src="../assets/img/jm_denis.jpg" alt="Img Profile">
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">Jimmy Denis</span>
@@ -76,7 +76,7 @@
                         <a class="see-all" href="javascript:void(0);">See all messages<i class="fa fa-angle-right"></i> </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="nav-item dropdown hidden-caret">
                 <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
@@ -147,19 +147,25 @@
                     <div class="quick-actions-scroll scrollbar-outer">
                         <div class="quick-actions-items">
                             <div class="row m-0">
-                                <a class="col-6 col-md-4 p-0" href="#">
+                                <a class="col-6 col-md-4 p-0" href="{{ url('admin/report') }}">
                                     <div class="quick-actions-item">
-                                        <i class="flaticon-file-1"></i>
-                                        <span class="text">Generated Report</span>
+                                        {{-- <i class="flaticon-file"></i> --}}
+                                        <span class="text">Generate Report</span>
                                     </div>
                                 </a>
-                                <a class="col-6 col-md-4 p-0" href="#">
+                                <a class="col-6 col-md-4 p-0" href="{{ url('admin/database') }}">
                                     <div class="quick-actions-item">
-                                        <i class="flaticon-database"></i>
-                                        <span class="text">Create New Database</span>
+                                        {{-- <i class="flaticon-database"></i> --}}
+                                        <span class="text">Back Up Database</span>
                                     </div>
                                 </a>
-                                <a class="col-6 col-md-4 p-0" href="#">
+                                <a class="col-6 col-md-4 p-0" href="{{ url('admin/log-activity') }}">
+                                    <div class="quick-actions-item">
+                                        {{-- <i class="flaticon-database"></i> --}}
+                                        <span class="text">Log Activity</span>
+                                    </div>
+                                </a>
+                                {{-- <a class="col-6 col-md-4 p-0" href="#">
                                     <div class="quick-actions-item">
                                         <i class="flaticon-pen"></i>
                                         <span class="text">Create New Post</span>
@@ -182,7 +188,7 @@
                                         <i class="flaticon-file"></i>
                                         <span class="text">Create New Invoice</span>
                                     </div>
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>

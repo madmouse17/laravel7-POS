@@ -116,7 +116,11 @@
                         <label for="">Permission :</label><br>
                         @foreach($permission as $value)
                         <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="permission[]" value="{{ $value->id }}">
+                            <input class="form-check-input" type="checkbox" name="permission[]" value="{{ $value->id }}" {{-- @if($role->permission)
+                            @if(in_array($value->id, $role->permission->pluck('id')->toArray() ))
+                            checked
+                            @endif
+                            @endif --}}>
                             <span class="form-check-sign"> {{ $value->name }}</span>
                         </label>
                         @endforeach
@@ -147,18 +151,18 @@ $(document).ready(function () {
         columns: [
             {
                 data: 'name',
-                name: 'role.name',
+                name: 'name',
                 orderable: false,
                 searchable: false
             },
    
             {
                 data: 'created_at',
-                name: 'role.created_at',
+                name: 'created_at',
             },
             {
                 data: 'updated_at',
-                name: 'role.updated_at',
+                name: 'updated_at',
             },
             {
                 data: 'action',

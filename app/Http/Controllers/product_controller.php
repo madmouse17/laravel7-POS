@@ -57,7 +57,7 @@ class product_controller extends Controller
                        ->with('supplier')->select('products.*') ;
         return Datatables::of($data)
             ->editColumn('created_at', function ($data) {
-                return $data->updated_at->format('d M Y');
+                return $data->created_at->format('d M Y');
             })
             ->editColumn('updated_at', function ($data) {
                 return $data->updated_at->format('d M Y');

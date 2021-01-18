@@ -39,6 +39,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('admin/icon', 'setting_controller@icon')->name('setting.icon');
     Route::patch('admin/logo', 'setting_controller@logo')->name('setting.logo');
 
+    // Log-activity
+    Route::resource('admin/log-activity', 'LogController');
+    Route::get('admin/log_json', 'LogController@log_json');
+
     // Manage Categories
     Route::resource('admin/categories', 'categories_controller');
     Route::get('admin/category_json', 'categories_controller@category_json');
