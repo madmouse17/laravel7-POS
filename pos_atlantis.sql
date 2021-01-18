@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2021 at 04:57 PM
+-- Generation Time: Jan 18, 2021 at 05:05 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -25,6 +25,39 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `activity_log`
+--
+
+CREATE TABLE `activity_log` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `log_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subject_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `subject_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `causer_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `causer_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `activity_log`
+--
+
+INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_type`, `subject_id`, `causer_type`, `causer_id`, `properties`, `created_at`, `updated_at`) VALUES
+(7, 'User', 'Updated user', 'App\\User', 59, 'App\\User', 1, '{\"attributes\":{\"name\":\"Leilani Boehm IV\",\"email\":\"braden.senger@example.net\",\"profile\":\"7ed2495197515c973a5333282402d887.jpg\",\"username\":\"branden\"}}', '2021-01-17 15:39:15', '2021-01-17 15:39:15'),
+(8, 'User', 'Updated user', 'App\\User', 1, 'App\\User', 1, '{\"attributes\":{\"name\":\"admin sekali\",\"email\":\"admin@mail.com\",\"profile\":\"1606404692_profile2.jpg\",\"username\":\"admin\"}}', '2021-01-17 16:59:01', '2021-01-17 16:59:01'),
+(9, 'User', 'Created user', 'App\\User', 65, 'App\\User', 63, '{\"attributes\":{\"name\":\"awsd\",\"email\":\"wwqw@gmail.com\",\"profile\":\"1610902793_asdawdawa.jpg\",\"username\":\"qqw\"}}', '2021-01-17 16:59:53', '2021-01-17 16:59:53'),
+(10, 'User', 'Updated user', 'App\\User', 29, 'App\\User', 1, '{\"attributes\":{\"name\":\"Mr. Mallory Renner\",\"email\":\"whalvorson@example.org\",\"profile\":\"3366bf3eb6477d6beeb12bbc80d1bb3b.jpg\",\"username\":\"whall\"}}', '2021-01-17 17:19:39', '2021-01-17 17:19:39'),
+(11, 'User', 'Updated user', 'App\\User', 38, 'App\\User', 1, '{\"attributes\":{\"name\":\"Ms. Brielle Marquardt\",\"email\":\"weissnat.maegan@example.net\",\"profile\":\"d15041c2267a5a20c7100b989911420b.jpg\",\"username\":\"brril\"}}', '2021-01-17 17:19:57', '2021-01-17 17:19:57'),
+(12, 'User', 'Updated user', 'App\\User', 33, 'App\\User', 1, '{\"attributes\":{\"name\":\"Ms. Destiny Armstrong\",\"email\":\"zella50@example.org\",\"profile\":\"d30c2fbe38db17e065e744154716bb14.jpg\",\"username\":\"adew\"}}', '2021-01-17 17:20:17', '2021-01-17 17:20:17'),
+(13, 'User', 'Updated user', 'App\\User', 1, 'App\\User', 1, '{\"attributes\":{\"name\":\"admin sekali\",\"email\":\"admin@mail.com\",\"profile\":\"1606404692_profile2.jpg\",\"username\":\"admin\"}}', '2021-01-17 17:27:02', '2021-01-17 17:27:02'),
+(14, 'Category', 'Created Category', 'App\\category', 4, 'App\\User', 1, '{\"attributes\":{\"name\":\"Mainan\"}}', '2021-01-18 12:20:07', '2021-01-18 12:20:07'),
+(15, 'User', 'Deleted user', 'App\\User', 46, 'App\\User', 1, '{\"attributes\":{\"name\":\"Tyra Doyle\",\"email\":\"antonio15@example.com\",\"profile\":\"ac822a07fa2aa14823663f69865aead7.jpg\",\"username\":\"\"}}', '2021-01-18 13:53:33', '2021-01-18 13:53:33'),
+(16, 'Product', 'Updated product', 'App\\product', 3, 'App\\User', 1, '{\"attributes\":{\"barcode\":112,\"name\":\"biskuit\",\"category_id\":2,\"buy\":2000,\"sell\":1500,\"stock\":32,\"supplier_id\":18}}', '2021-01-18 15:51:04', '2021-01-18 15:51:04');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `categories`
 --
 
@@ -41,7 +74,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (2, 'Makanan', '2020-11-29 05:36:50', '2020-11-29 05:36:50'),
-(3, 'Minuman', '2020-11-29 05:53:35', '2020-11-29 05:54:29');
+(3, 'Minuman', '2020-11-29 05:53:35', '2020-11-29 05:54:29'),
+(4, 'Mainan', '2021-01-18 12:20:06', '2021-01-18 12:20:06');
 
 -- --------------------------------------------------------
 
@@ -84,7 +118,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (7, '2020_11_29_165926_create_products_table', 5),
 (8, '2020_11_27_222748_add_username_column_to_users_table', 6),
 (9, '2020_11_29_174635_add_relationships_to_products_table', 6),
-(10, '2021_01_03_230801_create_permission_tables', 7);
+(10, '2021_01_03_230801_create_permission_tables', 7),
+(11, '2021_01_17_190549_create_activity_log_table', 8);
 
 -- --------------------------------------------------------
 
@@ -116,7 +151,15 @@ CREATE TABLE `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\User', 1),
-(2, 'App\\User', 63);
+(1, 'App\\User', 56),
+(1, 'App\\User', 59),
+(1, 'App\\User', 60),
+(2, 'App\\User', 29),
+(2, 'App\\User', 33),
+(2, 'App\\User', 38),
+(2, 'App\\User', 63),
+(2, 'App\\User', 64),
+(2, 'App\\User', 65);
 
 -- --------------------------------------------------------
 
@@ -199,7 +242,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `barcode`, `name`, `category_id`, `buy`, `sell`, `stock`, `supplier_id`, `created_at`, `updated_at`) VALUES
 (1, 111, 'Roma', 2, 1000, 1500, 1, 3, '2020-11-29 12:16:13', '2020-12-13 10:09:26'),
-(3, 112, 'biskuit', 2, 2000, 1500, 35, 18, '2020-12-11 09:50:57', '2021-01-03 14:51:01');
+(3, 112, 'biskuit', 2, 2000, 1500, 32, 18, '2020-12-11 09:50:57', '2021-01-18 15:51:04');
 
 -- --------------------------------------------------------
 
@@ -284,7 +327,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `icon`, `logo`, `perusahaan`, `tagline`, `created_at`, `updated_at`) VALUES
-(1, '1606486475_icon.ico', '1606489273_Webp.net-resizeimage (1).png', 'Laravel POS', 'We do it', NULL, '2020-11-29 10:34:22');
+(1, '1606486475_icon.ico', '1606489273_Webp.net-resizeimage (1).png', 'LaravelPOS', 'We do it', NULL, '2021-01-18 12:48:25');
 
 -- --------------------------------------------------------
 
@@ -5369,7 +5412,8 @@ INSERT INTO `transaksis` (`id`, `invoice_id`, `cashier_id`, `subtotal`, `discoun
 (74, '2012201220', 1, 1500, 0, 1500, 1500, 100000, -98500, '2020-12-17 16:22:28', '2020-12-17 16:22:28'),
 (75, 'INV-201220', 1, 1500, 0, 1500, 1500, 98988, -97488, '2020-12-17 16:28:41', '2020-12-17 16:28:41'),
 (76, 'INV-201221', 1, 1500, 0, 1500, 1500, 790099, -788599, '2020-12-17 16:29:48', '2020-12-17 16:29:48'),
-(77, 'INV-211222', 1, 1500, 0, 1500, 1500, 3000, -1500, '2021-01-03 14:51:01', '2021-01-03 14:51:01');
+(77, 'INV-211222', 1, 1500, 0, 1500, 1500, 3000, -1500, '2021-01-03 14:51:01', '2021-01-03 14:51:01'),
+(78, 'INV-211223', 1, 4500, 0, 4500, 4500, 20000, -15500, '2021-01-18 15:51:04', '2021-01-18 15:51:04');
 
 -- --------------------------------------------------------
 
@@ -5421,7 +5465,8 @@ INSERT INTO `transaksi_details` (`transaksi_id`, `product_id`, `price`, `qty`, `
 (75, 3, 1500, 1, 1500, '2020-12-17 16:28:41', '2020-12-17 16:28:41'),
 (76, 3, 1500, 1, 1500, '2020-12-17 16:29:48', '2020-12-17 16:29:48'),
 (66, 3, 2500, 3, 8000, '2020-10-31 17:00:00', NULL),
-(77, 3, 1500, 1, 1500, '2021-01-03 14:51:01', '2021-01-03 14:51:01');
+(77, 3, 1500, 1, 1500, '2021-01-03 14:51:01', '2021-01-03 14:51:01'),
+(78, 3, 1500, 3, 4500, '2021-01-18 15:51:04', '2021-01-18 15:51:04');
 
 -- --------------------------------------------------------
 
@@ -5447,21 +5492,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `profile`, `email`, `username`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin sekali', '1606404692_profile2.jpg', 'admin@mail.com', 'admin', NULL, '$2y$10$Uhz6aXQKwEiJrlOn9msCi.g3W.gquaVRf6jOFG5IN82rNIHYW/xly', 'lSfBDW4b4sJbfyfuaHrmqU9x6KcTtE98bumF22v8rWMQ0aqLURiholIBCjDy', '2020-11-22 17:00:00', '2021-01-12 12:43:22'),
-(29, 'Mr. Mallory Renner', '3366bf3eb6477d6beeb12bbc80d1bb3b.jpg', 'whalvorson@example.org', '', '2020-11-23 05:41:24', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'l13kbu2TOd', '2020-11-23 05:41:41', '2020-11-23 05:41:41'),
-(33, 'Ms. Destiny Armstrong', 'd30c2fbe38db17e065e744154716bb14.jpg', 'zella50@example.org', '', '2020-11-23 05:41:30', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'MS9a72vURK', '2020-11-23 05:41:41', '2020-11-23 05:41:41'),
-(38, 'Ms. Brielle Marquardt', 'd15041c2267a5a20c7100b989911420b.jpg', 'weissnat.maegan@example.net', '', '2020-11-23 05:41:38', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'gFF8ZdC5P2', '2020-11-23 05:41:41', '2020-11-23 05:41:41'),
-(40, 'Weldon Cruickshank', '0', 'wsporer@example.org', '', '2020-11-23 06:24:37', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'IT86RkHqK0', '2020-11-23 06:35:50', '2020-11-23 06:35:50'),
+(1, 'admin sekali', '1606404692_profile2.jpg', 'admin@mail.com', 'admin', NULL, '$2y$10$Uhz6aXQKwEiJrlOn9msCi.g3W.gquaVRf6jOFG5IN82rNIHYW/xly', 'vNnCZLSSZkrtFXy6k6y4KmDB70IJsqsLbVNqrdGTgInqfoaWYEtpm81rhumW', '2020-11-22 17:00:00', '2021-01-12 12:43:22'),
+(29, 'Mr. Mallory Renner', '3366bf3eb6477d6beeb12bbc80d1bb3b.jpg', 'whalvorson@example.org', 'whall', '2020-11-23 05:41:24', '$2y$10$O0FowQmcQCsYaHJKZoDrv.0lvvqNqfufXd4Lj9ZxpsnTWPdqEuKsa', 'l13kbu2TOd', '2020-11-23 05:41:41', '2021-01-17 17:19:39'),
+(33, 'Ms. Destiny Armstrong', 'd30c2fbe38db17e065e744154716bb14.jpg', 'zella50@example.org', 'adew', '2020-11-23 05:41:30', '$2y$10$/TPnRT8K5oYY5jxp3CunZuO4QJvAW3w1qCBeTpMhgTPyu6hPQ9bOO', 'MS9a72vURK', '2020-11-23 05:41:41', '2021-01-17 17:20:17'),
+(38, 'Ms. Brielle Marquardt', 'd15041c2267a5a20c7100b989911420b.jpg', 'weissnat.maegan@example.net', 'brril', '2020-11-23 05:41:38', '$2y$10$fysDxWAm/fXGHupcKIhNd.kdlQzmurn0v2bi3mgRDeihFMgV.gq2G', 'gFF8ZdC5P2', '2020-11-23 05:41:41', '2021-01-17 17:19:57'),
 (42, 'Roosevelt Shields', 'f99f3fe12e1d28d999b0400aa6d5d557.jpg', 'wnikolaus@example.net', '', '2020-11-23 06:25:41', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'M0fMqQWeAT', '2020-11-23 06:35:50', '2020-11-23 06:35:50'),
-(46, 'Tyra Doyle', 'ac822a07fa2aa14823663f69865aead7.jpg', 'antonio15@example.com', '', '2020-11-23 06:27:30', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'L7jTwchjnT', '2020-11-23 06:35:50', '2020-11-23 06:35:50'),
-(53, 'Frieda Anderson', '1606565968_client-1.png', 'aa85@example.com', '', '2020-11-23 06:31:15', '$2y$10$UtgrOIyedmK0fATm3RRJUuqqWSp5Z8l.yE9ta0w7J7AAQwu2YdfGm', '8B4MW1FKdA', '2020-11-23 06:35:50', '2020-11-28 12:19:28'),
 (55, 'Seth Considine', '8d6827422dfe0406ecafd8cf906560b7.jpg', 'foconnell@example.org', '', '2020-11-23 06:32:39', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'P8FFV0euAq', '2020-11-23 06:35:50', '2020-11-23 06:35:50'),
-(56, 'Dawson Dickinson', '1606558600_client-1.png', 'ghj@mail.com', '', '2020-11-23 06:34:13', '$2y$10$ctWq46kT9NuI6CzlLMAeeuWX0pVV3kQEa8BwgiR8gfSr2ReZ65sfC', 'WnruXrasOB', '2020-11-23 06:35:50', '2020-11-28 12:21:41'),
-(58, 'Mr. Rick Dietrich DDS', '0', 'svonrueden@example.com', '', '2020-11-23 06:35:02', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'XX2efvsQuC', '2020-11-23 06:35:51', '2020-11-23 06:35:51'),
-(59, 'Leilani Boehm IV', '7ed2495197515c973a5333282402d887.jpg', 'braden.senger@example.net', '', '2020-11-23 06:35:23', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '2xjbmiteV8', '2020-11-23 06:35:51', '2020-11-23 06:35:51'),
-(60, 'adam', '1606405874_talha.jpg', 'adam@mail.com', '', NULL, '$2y$10$MS2NXyHMzZj7J.Ka7vxtwentClY8Gt6rg.LPGsivdbPwmmQ9yqo9m', NULL, '2020-11-24 10:49:15', '2020-11-28 13:44:02'),
+(56, 'Dawson Dickinson', '1606558600_client-1.png', 'ghj@mail.com', 'dawson', '2020-11-23 06:34:13', '$2y$10$Zpgr1VQg1RqKjYLD9VcsgudWtKQROvI4vvZ5C3D8zY0DX8oczWH8q', 'WnruXrasOB', '2020-11-23 06:35:50', '2021-01-17 12:42:21'),
+(59, 'Leilani Boehm IV', '7ed2495197515c973a5333282402d887.jpg', 'braden.senger@example.net', 'branden', '2020-11-23 06:35:23', '$2y$10$ot5x.nSyRgXzp/xy7hQ0e.lP2HeNdn0gRiMmijMudMfIIosu86teq', '2xjbmiteV8', '2020-11-23 06:35:51', '2021-01-17 15:39:15'),
+(60, 'adam', '1606405874_talha.jpg', 'adam@mail.com', 'adam', NULL, '$2y$10$an0YwCcbljasLCUB4B4mn.awxMTRdYMCOBsDfP9N2NOrH8UKdrhXS', NULL, '2020-11-24 10:49:15', '2021-01-17 12:40:59'),
 (61, 'tiara kusuma', '1606551705_Another Danger - Font Cover 1.png', 'tiara@mail.com', '', NULL, '$2y$10$WWxmaFdeKyhoOkswsQVZmOcEKcxEH7i2drI8UN/Pvu0wYzTmAFBRa', NULL, '2020-11-28 08:20:41', '2020-11-28 08:40:27'),
-(63, 'Dawson Dickinson', '1610455118_15.png', 'ida12@mail.com', 'tiara', NULL, '$2y$10$vX6NToSTbKXuJuTfXkt5AO8uQ6lHYJ5ymj/r1EwmIXFbH.bmAD2qm', NULL, '2021-01-12 12:38:39', '2021-01-12 12:38:39');
+(63, 'Dawson Dickinson', '1610455118_15.png', 'ida12@mail.com', 'tiara', NULL, '$2y$10$vX6NToSTbKXuJuTfXkt5AO8uQ6lHYJ5ymj/r1EwmIXFbH.bmAD2qm', NULL, '2021-01-12 12:38:39', '2021-01-12 12:38:39'),
+(64, 'frankeinstein', '1610887577_a.jpg', 'fran@mail.com', 'frank', NULL, '$2y$10$E73IaoPiPpDq3cwk3TJQtedpCI3KHBvrRQ/o8BDaM0MUG0AFswb5e', NULL, '2021-01-17 12:46:17', '2021-01-17 12:46:17'),
+(65, 'awsd', '1610902793_asdawdawa.jpg', 'wwqw@gmail.com', 'qqw', NULL, '$2y$10$VjiFOxxpQ5kUr8/oDvW2sOCwqWhT2rvgc/DUbvrLXGn3jEAba8hUC', NULL, '2021-01-17 16:59:53', '2021-01-17 16:59:53');
 
 --
 -- Indexes for dumped tables
@@ -5561,10 +5604,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `activity_log`
+--
+ALTER TABLE `activity_log`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -5576,7 +5625,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -5612,13 +5661,13 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `transaksis`
 --
 ALTER TABLE `transaksis`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- Constraints for dumped tables

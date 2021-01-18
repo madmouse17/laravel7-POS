@@ -66,31 +66,6 @@ class MyTransaksiController extends Controller
         return response()->json($response);
     }
 
-    public function product_json()
-    {
-        $data = product::query();
-        return Datatables::of($data)
-            // ->editColumn("created_at", function ($data) {
-            //     return date("m/d/Y", strtotime($data->created_at));
-            // })
-            ->addColumn('action', function ($data) {
-                $button ='<button type ="button" class="btn btn-success align-right btn-sm" name="select" id="select"
-                    data-id="'.$data->id.'"
-                    data-barcode="'.$data->barcode.'"
-                    data-name="'.$data->name.'"
-                    data-sell="'.$data->sell.'"
-                    data-buy="'.$data->buy.'"
-                    data-stock="'.$data->stock.'"
-                ><i class="fas fa-check"></i></button>';
-                // $button .='
-                // &nbsp;&nbsp;&nbsp;
-                // <button type ="button" class="btn btn-danger align-right btn-sm" name="edit" id="hapus" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
-                return $button;
-            })
-
-            ->rawColumns(['action'])
-            ->make(true);
-    }
 
     public function report(Request $request){
         $setting = setting::where('id', 1)->first();

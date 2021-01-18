@@ -147,19 +147,19 @@
                     <div class="quick-actions-scroll scrollbar-outer">
                         <div class="quick-actions-items">
                             <div class="row m-0">
-                                <a class="col-6 col-md-4 p-0" href="{{ url('admin/report') }}">
+                                <a class="col-6 col-md-6 p-0" href="{{ url('admin/report') }}">
                                     <div class="quick-actions-item">
                                         {{-- <i class="flaticon-file"></i> --}}
                                         <span class="text">Generate Report</span>
                                     </div>
                                 </a>
-                                <a class="col-6 col-md-4 p-0" href="{{ url('admin/database') }}">
-                                    <div class="quick-actions-item">
-                                        {{-- <i class="flaticon-database"></i> --}}
-                                        <span class="text">Back Up Database</span>
-                                    </div>
-                                </a>
-                                <a class="col-6 col-md-4 p-0" href="{{ url('admin/log-activity') }}">
+                                {{-- <a class="col-6 col-md-4 p-0" href="{{ url('admin/database') }}">
+                                <div class="quick-actions-item">
+                                    <i class="flaticon-database"></i>
+                                    <span class="text">Back Up Database</span>
+                                </div>
+                                </a> --}}
+                                <a class="col-6 col-md-6 p-0" href="{{ url('admin/log-activity') }}">
                                     <div class="quick-actions-item">
                                         {{-- <i class="flaticon-database"></i> --}}
                                         <span class="text">Log Activity</span>
