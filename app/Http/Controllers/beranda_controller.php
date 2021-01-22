@@ -14,6 +14,7 @@ use DB;
 use App\transaksiDetail;
 use Charts;
 use Spatie\Activitylog\Models\Activity;
+use Carbon\Carbon;
 class beranda_controller extends Controller
 {
     /**
@@ -35,13 +36,12 @@ class beranda_controller extends Controller
         ->select(['activity_log.description','activity_log.log_name', 'users.username', 'activity_log.description', 'activity_log.properties', 'activity_log.updated_at'])
         ->get()
         ->take(5), true); 
-        // dd($lastActivity);
-        // Day Income
-        $data = collect([]); // Could also be an array
 
+        // chart by days
+        $data = collect([]); 
         for ($days_backwards = 7; $days_backwards >= 0; $days_backwards--) {
-        // Could also be an array_push if using an array rather than a collection.
-        $data->push(transaksi::whereDate('created_at', today()->subDays($days_backwards))->count())  ;
+
+        $data->push(transaksiDetail::whereDate('created_at', today()->subDays($days_backwards))->count())  ;
         }
 
         $chart = new Day_income;
@@ -50,18 +50,18 @@ class beranda_controller extends Controller
             ->color("#ff910a")
             ->backgroundcolor("#ff910a");
 
-            $transaksi_month = transaksiDetail::select([
-                DB::raw("DATE_FORMAT(created_at,'%M-%Y')as month"),
-                DB::raw("count(transaksi_id)as count")
-                ])
-            ->groupby('month')
-            ->orderby('month')
-            ->get();
-            // return $transaksi_month->values();
-            // dd($transaksi_month);
+// Chart Per month by years
+            $now = Carbon::now()->year;
+            $data_transaksi = collect([]); 
+
+        for ($month_forward = 1; $month_forward <= 12; $month_forward++) {
+        $data_transaksi->push(transaksiDetail::whereYear('created_at',$now)
+        ->whereMonth('created_at',$month_forward)
+        ->count());
+        }
             $chart_month = new Month_income;
-                  $chart_month->labels($transaksi_month->keys());
-                  $chart_month->dataset('Transaksi','line',$transaksi_month->values());
+                  $chart_month->labels(["January","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]);
+                  $chart_month->dataset('Transaksi','line',$data_transaksi->values());
                   
         return view('admin.dashboard.dashboard_index',compact('setting','user','product','transaksi','total_income','total_spend','chart','chart_month','activity'));
     }
