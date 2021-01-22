@@ -60,7 +60,7 @@ class beranda_controller extends Controller
         ->count());
         }
             $chart_month = new Month_income;
-                  $chart_month->labels(["January","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]);
+                  $chart_month->labels(["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]);
                   $chart_month->dataset('Transaksi','line',$data_transaksi->values());
                   
         return view('admin.dashboard.dashboard_index',compact('setting','user','product','transaksi','total_income','total_spend','chart','chart_month','activity'));

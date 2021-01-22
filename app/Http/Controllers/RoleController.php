@@ -81,7 +81,7 @@ class RoleController extends Controller
             if (!auth()->user()->can('role-delete')) {
                 $can_delete = "style='display:none;'";
             }
-        $data = role::query() ;
+        $data = Role::query() ;
         return Datatables::of($data)
 
          ->editColumn('created_at', function ($data)  {

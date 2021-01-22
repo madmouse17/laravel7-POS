@@ -76,9 +76,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Role & permission
         Route::resource('/admin/role', 'RoleController');
-        Route::get('admin/role_json', 'Rolecontroller@role_json');
-        Route::patch('admin/role/update/{id}', 'Rolecontroller@update');
-        Route::get('admin/role/delete/{id}', 'Rolecontroller@destroy');;
+        Route::get('admin/role_json', 'RoleController@role_json');
+        Route::patch('admin/role/update/{id}', 'RoleController@update');
+        Route::get('admin/role/delete/{id}', 'RoleController@destroy');;
 });
 
 Auth::routes(['register'=> false, 'reset'=>false]);
