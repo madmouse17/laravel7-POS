@@ -28,6 +28,6 @@ Untuk menggunakan aplikasi ini disarankan untuk menggunakan `PHP 7`
 
 ![Image 007](https://user-images.githubusercontent.com/33163281/129160517-f2be2d17-b264-42d3-aad4-3c0fb64d7e8e.png)
 # Resources
-::marker[Spatie-permission](https://github.com/spatie/laravel-permission)
-::marker[Yajra Datables](https://github.com/yajra/laravel-datatables)
-::marker[Activity-log](https://github.com/spatie/laravel-activitylog)
+ -[Spatie-permission](https://github.com/spatie/laravel-permission)
+-[Yajra Datables](https://github.com/yajra/laravel-datatables)
+-[Activity-log](https://github.com/spatie/laravel-activitylog)
