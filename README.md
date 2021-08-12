@@ -11,6 +11,7 @@ Untuk menggunakan aplikasi ini disarankan untuk menggunakan `PHP 7`
  8. ketikkan `php artisan config:cache`pada cmd
  9. ketikkan `php artisan serve`
  10. lalu jalankan `http://localhost:8080`
+ 11. login menggunakan `email : admin@mail.com & password :admin`
 
 
 # Screenshoot 
