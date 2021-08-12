@@ -6,7 +6,7 @@ Projek ini dilengkapi dengan
 [Activity-log](https://github.com/spatie/laravel-activitylog)
 # Instalasi
  1.  Jalankan Command Prompt (cmd) dan arahkan ke folder 
- 2. ketikkan `composer install*` cmd
+ 2. ketikkan `composer install` cmd
  3. copy .`env.example`jadi `.env
  4. ketikkan `php artisan key:generate` pada cmd
  5.  Import database `pos-atanltis.sql` 
